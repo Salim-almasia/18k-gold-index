@@ -120,19 +120,19 @@ const EnhancedPriceChart = ({ historyData, loading }) => {
             </defs>
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="#30363d"
+              stroke="#1e3a5f"
               vertical={false}
             />
             <XAxis
               dataKey="date"
-              tick={{ fill: '#8b949e', fontSize: 11 }}
-              axisLine={{ stroke: '#30363d' }}
+              tick={{ fill: '#94a3b8', fontSize: 11 }}
+              axisLine={{ stroke: '#1e3a5f' }}
               tickLine={false}
               interval="preserveStartEnd"
             />
             <YAxis
               domain={[minPrice, maxPrice]}
-              tick={{ fill: '#8b949e', fontSize: 11 }}
+              tick={{ fill: '#94a3b8', fontSize: 11 }}
               axisLine={false}
               tickLine={false}
               tickFormatter={(value) => value.toLocaleString('fr-FR')}
@@ -148,9 +148,9 @@ const EnhancedPriceChart = ({ historyData, loading }) => {
               type="monotone"
               dataKey="price"
               stroke="#C9A961"
-              strokeWidth={2}
+              strokeWidth={2.5}
               dot={false}
-              activeDot={{ r: 6, fill: '#C9A961', stroke: '#0d1117', strokeWidth: 2 }}
+              activeDot={{ r: 6, fill: '#C9A961', stroke: '#0a1628', strokeWidth: 2 }}
             />
           </ComposedChart>
         </ResponsiveContainer>

@@ -69,32 +69,56 @@ function App() {
           </button>
         </div>
       ) : (
-        <div className="space-y-6">
-          {/* Chart at the top */}
-          <EnhancedPriceChart historyData={historyData} loading={loading} />
-
-          {/* Price Hero + Currency Converter */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <PriceHero currentPrice={currentPrice} loading={loading} />
+        <div className="space-y-8">
+          {/* ========== SECTION 1: INFORMATIONS OR ========== */}
+          <section>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-1 h-8 bg-gold-400 rounded-full"></div>
+              <h2 className="text-xl font-bold text-terminal-text">
+                Informations sur l'Or
+              </h2>
             </div>
-            <div>
-              <CurrencyConverter basePrice24K={currentPrice?.price_per_gram_mad} />
+
+            {/* Price Hero + Currency Converter */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+              <div className="lg:col-span-2">
+                <PriceHero currentPrice={currentPrice} loading={loading} />
+              </div>
+              <div>
+                <CurrencyConverter basePrice24K={currentPrice?.price_per_gram_mad} />
+              </div>
             </div>
-          </div>
 
-          {/* Karat Price Grid */}
-          <KaratPriceGrid currentPrice={currentPrice} loading={loading} />
+            {/* Karat Price Grid */}
+            <div className="mb-6">
+              <KaratPriceGrid currentPrice={currentPrice} loading={loading} />
+            </div>
 
-          {/* Statistics */}
-          <PriceStatistics historyData={historyData} loading={loading} />
+            {/* Statistics */}
+            <PriceStatistics historyData={historyData} loading={loading} />
+          </section>
+
+          {/* Divider */}
+          <div className="section-divider"></div>
+
+          {/* ========== SECTION 2: HISTORIQUE ========== */}
+          <section>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-1 h-8 bg-gold-400 rounded-full"></div>
+              <h2 className="text-xl font-bold text-terminal-text">
+                Historique des Prix
+              </h2>
+            </div>
+
+            <EnhancedPriceChart historyData={historyData} loading={loading} />
+          </section>
 
           {/* Refresh button */}
-          <div className="flex justify-center">
+          <div className="flex justify-center pt-4">
             <button
               onClick={fetchPriceData}
               disabled={loading}
-              className="btn-ghost flex items-center gap-2"
+              className="btn-ghost flex items-center gap-2 border border-terminal-border hover:border-gold-400"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />

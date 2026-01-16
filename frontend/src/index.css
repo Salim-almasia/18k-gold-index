@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --color-terminal-bg: #0d1117;
-  --color-terminal-card: #161b22;
-  --color-terminal-border: #30363d;
-  --color-terminal-text: #c9d1d9;
-  --color-terminal-muted: #8b949e;
+  --color-terminal-bg: #0a1628;
+  --color-terminal-card: #0f1f36;
+  --color-terminal-border: #1e3a5f;
+  --color-terminal-text: #e2e8f0;
+  --color-terminal-muted: #94a3b8;
+  --color-accent: #C9A961;
 }
 
 @layer base {
@@ -27,7 +28,7 @@
   .card-terminal {
     background-color: var(--color-terminal-card);
     border: 1px solid var(--color-terminal-border);
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     transition: background-color 0.3s ease, border-color 0.3s ease;
   }
 
@@ -57,8 +58,9 @@
 
   .btn-gold {
     @apply bg-gold-400 hover:bg-gold-500 text-white font-semibold
-           py-2 px-4 rounded-lg transition-colors duration-200
-           disabled:opacity-50 disabled:cursor-not-allowed;
+           py-2.5 px-5 rounded-lg transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed
+           shadow-lg shadow-gold-400/20 hover:shadow-gold-400/30;
   }
 
   .btn-ghost {
@@ -68,15 +70,15 @@
 
   .btn-ghost:hover {
     color: var(--color-terminal-text);
-    background-color: rgba(128, 128, 128, 0.2);
+    background-color: rgba(128, 128, 128, 0.15);
   }
 
   .price-positive {
-    @apply text-green-400 bg-green-400/10 px-2 py-0.5 rounded;
+    @apply text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-md font-medium;
   }
 
   .price-negative {
-    @apply text-red-400 bg-red-400/10 px-2 py-0.5 rounded;
+    @apply text-red-400 bg-red-400/10 px-2.5 py-1 rounded-md font-medium;
   }
 
   .input-terminal {
@@ -84,9 +86,9 @@
     background-color: var(--color-terminal-bg);
     border: 1px solid var(--color-terminal-border);
     border-radius: 0.5rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.625rem 0.875rem;
     color: var(--color-terminal-text);
-    transition: border-color 0.2s, background-color 0.3s;
+    transition: border-color 0.2s, background-color 0.3s, box-shadow 0.2s;
   }
 
   .input-terminal::placeholder {
@@ -96,7 +98,7 @@
   .input-terminal:focus {
     outline: none;
     border-color: #C9A961;
-    box-shadow: 0 0 0 1px rgba(201, 169, 97, 0.5);
+    box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.15);
   }
 
   .label-terminal {
@@ -105,5 +107,13 @@
     font-weight: 500;
     display: block;
     margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    @apply text-gold-400 text-lg font-semibold mb-4 flex items-center gap-2;
+  }
+
+  .section-divider {
+    @apply border-t border-terminal-border my-8;
   }
 }
