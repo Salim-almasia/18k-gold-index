@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-terminal-bg: #0d1117;
+  --color-terminal-card: #161b22;
+  --color-terminal-border: #30363d;
+  --color-terminal-text: #c9d1d9;
+  --color-terminal-muted: #8b949e;
+}
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    background-color: var(--color-terminal-bg);
+    color: var(--color-terminal-text);
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer components {
+  .card-terminal {
+    background-color: var(--color-terminal-card);
+    border: 1px solid var(--color-terminal-border);
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .bg-terminal-bg {
+    background-color: var(--color-terminal-bg);
+  }
+
+  .bg-terminal-card {
+    background-color: var(--color-terminal-card);
+  }
+
+  .border-terminal-border {
+    border-color: var(--color-terminal-border);
+  }
+
+  .text-terminal-text {
+    color: var(--color-terminal-text);
+  }
+
+  .text-terminal-muted {
+    color: var(--color-terminal-muted);
+  }
+
+  .placeholder-terminal-muted::placeholder {
+    color: var(--color-terminal-muted);
+  }
+
+  .btn-gold {
+    @apply bg-gold-400 hover:bg-gold-500 text-white font-semibold
+           py-2 px-4 rounded-lg transition-colors duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    color: var(--color-terminal-muted);
+    @apply py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+
+  .btn-ghost:hover {
+    color: var(--color-terminal-text);
+    background-color: rgba(128, 128, 128, 0.2);
+  }
+
+  .price-positive {
+    @apply text-green-400 bg-green-400/10 px-2 py-0.5 rounded;
+  }
+
+  .price-negative {
+    @apply text-red-400 bg-red-400/10 px-2 py-0.5 rounded;
+  }
+
+  .input-terminal {
+    width: 100%;
+    background-color: var(--color-terminal-bg);
+    border: 1px solid var(--color-terminal-border);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    color: var(--color-terminal-text);
+    transition: border-color 0.2s, background-color 0.3s;
+  }
+
+  .input-terminal::placeholder {
+    color: var(--color-terminal-muted);
+  }
+
+  .input-terminal:focus {
+    outline: none;
+    border-color: #C9A961;
+    box-shadow: 0 0 0 1px rgba(201, 169, 97, 0.5);
+  }
+
+  .label-terminal {
+    color: var(--color-terminal-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+}
