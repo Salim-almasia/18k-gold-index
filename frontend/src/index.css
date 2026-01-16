@@ -2,118 +2,249 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Luxury Minimal Design System */
+
+/* Calibri for titles */
+.font-title {
+  font-family: 'Calibri', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}
+
 :root {
-  --color-terminal-bg: #0a1628;
-  --color-terminal-card: #0f1f36;
-  --color-terminal-border: #1e3a5f;
-  --color-terminal-text: #e2e8f0;
-  --color-terminal-muted: #94a3b8;
-  --color-accent: #C9A961;
+  --color-primary: #002FA7;
+  --color-secondary: #D2A24C;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #fafafa;
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #64748b;
+  --color-text-muted: #94a3b8;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-chart-gradient-start: rgba(0, 47, 167, 0.15);
+  --color-chart-gradient-end: rgba(0, 47, 167, 0.01);
 }
 
 @layer base {
   html {
     @apply antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
   body {
-    background-color: var(--color-terminal-bg);
-    color: var(--color-terminal-text);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
     min-height: 100vh;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 }
 
 @layer components {
-  .card-terminal {
-    background-color: var(--color-terminal-card);
-    border: 1px solid var(--color-terminal-border);
-    border-radius: 0.75rem;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+  /* Card Styles */
+  .card-luxury {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: box-shadow 0.2s ease;
   }
 
-  .bg-terminal-bg {
-    background-color: var(--color-terminal-bg);
+  .card-luxury:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.02);
   }
 
-  .bg-terminal-card {
-    background-color: var(--color-terminal-card);
+  /* Typography */
+  .text-primary-blue {
+    color: var(--color-primary);
   }
 
-  .border-terminal-border {
-    border-color: var(--color-terminal-border);
+  .text-gold {
+    color: var(--color-secondary);
   }
 
-  .text-terminal-text {
-    color: var(--color-terminal-text);
+  .text-muted {
+    color: var(--color-text-muted);
   }
 
-  .text-terminal-muted {
-    color: var(--color-terminal-muted);
+  /* Buttons */
+  .btn-luxury {
+    @apply px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200;
   }
 
-  .placeholder-terminal-muted::placeholder {
-    color: var(--color-terminal-muted);
+  .btn-luxury-primary {
+    background-color: var(--color-primary);
+    color: white;
   }
 
-  .btn-gold {
-    @apply bg-gold-400 hover:bg-gold-500 text-white font-semibold
-           py-2.5 px-5 rounded-lg transition-all duration-200
-           disabled:opacity-50 disabled:cursor-not-allowed
-           shadow-lg shadow-gold-400/20 hover:shadow-gold-400/30;
+  .btn-luxury-primary:hover {
+    background-color: #001f7a;
+    transform: translateY(-1px);
   }
 
-  .btn-ghost {
-    color: var(--color-terminal-muted);
-    @apply py-2 px-4 rounded-lg transition-colors duration-200;
+  .btn-luxury-outline {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
   }
 
-  .btn-ghost:hover {
-    color: var(--color-terminal-text);
-    background-color: rgba(128, 128, 128, 0.15);
+  .btn-luxury-outline:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
   }
 
-  .price-positive {
-    @apply text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-md font-medium;
+  .btn-luxury-outline.active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
   }
 
-  .price-negative {
-    @apply text-red-400 bg-red-400/10 px-2.5 py-1 rounded-md font-medium;
+  /* Unit Toggle */
+  .unit-toggle {
+    @apply inline-flex rounded-lg overflow-hidden border;
+    border-color: var(--color-border);
   }
 
-  .input-terminal {
-    width: 100%;
-    background-color: var(--color-terminal-bg);
-    border: 1px solid var(--color-terminal-border);
-    border-radius: 0.5rem;
-    padding: 0.625rem 0.875rem;
-    color: var(--color-terminal-text);
-    transition: border-color 0.2s, background-color 0.3s, box-shadow 0.2s;
+  .unit-toggle-btn {
+    @apply px-4 py-2 text-sm font-medium transition-all duration-200;
+    color: var(--color-text-secondary);
+    background-color: transparent;
   }
 
-  .input-terminal::placeholder {
-    color: var(--color-terminal-muted);
+  .unit-toggle-btn:hover {
+    background-color: var(--color-surface-elevated);
   }
 
-  .input-terminal:focus {
-    outline: none;
-    border-color: #C9A961;
-    box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.15);
+  .unit-toggle-btn.active {
+    background-color: var(--color-primary);
+    color: white;
   }
 
-  .label-terminal {
-    color: var(--color-terminal-muted);
-    font-size: 0.875rem;
-    font-weight: 500;
-    display: block;
-    margin-bottom: 0.5rem;
+  /* Variation Badge */
+  .variation-badge {
+    @apply inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-semibold;
   }
 
-  .section-title {
-    @apply text-gold-400 text-lg font-semibold mb-4 flex items-center gap-2;
+  .variation-badge.positive {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--color-success);
   }
 
-  .section-divider {
-    @apply border-t border-terminal-border my-8;
+  .variation-badge.negative {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--color-danger);
+  }
+
+  /* Filter Pills */
+  .filter-pill {
+    @apply px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer;
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  .filter-pill:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .filter-pill.active {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+  }
+
+  /* Editorial Block */
+  .editorial-block {
+    background-color: var(--color-surface-elevated);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .editorial-title {
+    color: var(--color-primary);
+    @apply text-xl font-bold mb-4;
+  }
+
+  .editorial-text {
+    color: var(--color-text-secondary);
+    @apply text-sm leading-relaxed;
+  }
+
+  /* Skeleton Loading */
+  .skeleton {
+    @apply animate-pulse rounded;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Chart Watermark */
+  .chart-watermark {
+    @apply absolute inset-0 flex items-center justify-center pointer-events-none select-none;
+    z-index: 1;
+  }
+
+  .chart-watermark-text {
+    font-size: 4rem;
+    font-weight: 800;
+    color: rgba(0, 47, 167, 0.05);
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 1024px) {
+    .chart-watermark-text {
+      font-size: 6rem;
+    }
+  }
+
+  /* Data Label */
+  .data-label {
+    @apply text-xs uppercase tracking-wider mb-1;
+    color: var(--color-text-muted);
+  }
+
+  .data-value {
+    @apply text-2xl font-semibold;
+    color: var(--color-text-primary);
+  }
+
+  .data-value-large {
+    @apply text-4xl font-bold;
+    color: var(--color-secondary);
+  }
+
+  /* Refresh Button */
+  .btn-refresh {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-refresh:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .btn-refresh:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Export Buttons */
+  .btn-export {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border-light);
+  }
+
+  .btn-export:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background-color: rgba(0, 47, 167, 0.02);
   }
 }

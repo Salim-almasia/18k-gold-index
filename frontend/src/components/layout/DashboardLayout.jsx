@@ -4,9 +4,9 @@ import Footer from './Footer';
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-terminal-bg flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <Header />
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+      <main className="flex-1">
         {children}
       </main>
       <Footer />
