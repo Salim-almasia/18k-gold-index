@@ -16,15 +16,14 @@ const BlogAdmin = ({ token }) => {
   const [filterStatus, setFilterStatus] = useState('');
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  const authHeaders = { headers: { 'Authorization': `Bearer ${token}` } };
-
   const fetchData = useCallback(async () => {
+    const headers = { headers: { 'Authorization': `Bearer ${token}` } };
     try {
       setLoading(true);
       const [articlesRes, categoriesRes, statsRes] = await Promise.all([
-        axios.get(`${API_URL}/api/admin/blog/articles`, authHeaders),
+        axios.get(`${API_URL}/api/admin/blog/articles`, headers),
         axios.get(`${API_URL}/api/blog/categories`),
-        axios.get(`${API_URL}/api/admin/blog/stats`, authHeaders)
+        axios.get(`${API_URL}/api/admin/blog/stats`, headers)
       ]);
       setArticles(articlesRes.data || []);
       setCategories(categoriesRes.data || []);
@@ -49,7 +48,7 @@ const BlogAdmin = ({ token }) => {
   const handleDeleteArticle = async (id) => {
     if (!window.confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) return;
     try {
-      await axios.delete(`${API_URL}/api/admin/blog/articles/${id}`, authHeaders);
+      await axios.delete(`${API_URL}/api/admin/blog/articles/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
       showMessage('success', 'Article supprimé avec succès');
       fetchData();
     } catch (error) {
@@ -60,7 +59,7 @@ const BlogAdmin = ({ token }) => {
   const handleDeleteCategory = async (id) => {
     if (!window.confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')) return;
     try {
-      await axios.delete(`${API_URL}/api/admin/blog/categories/${id}`, authHeaders);
+      await axios.delete(`${API_URL}/api/admin/blog/categories/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
       showMessage('success', 'Catégorie supprimée');
       fetchData();
     } catch (error) {

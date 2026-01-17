@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import API_URL from '../../config';
@@ -18,11 +18,7 @@ const Blog = () => {
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const currentCategory = searchParams.get('category') || '';
 
-  useEffect(() => {
-    fetchData();
-  }, [currentPage, currentCategory]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -48,7 +44,11 @@ const Blog = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [currentPage, currentCategory]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const handlePageChange = (page) => {
     const params = new URLSearchParams(searchParams);
