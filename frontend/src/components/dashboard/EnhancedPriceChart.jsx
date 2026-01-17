@@ -25,6 +25,7 @@ const EnhancedPriceChart = ({ historyData, loading, timeframe, onTimeframeChange
     const filteredData = historyData.slice(0, Math.min(selectedDays, historyData.length));
 
     return filteredData.map(item => ({
+      dateKey: item.date, // Unique key for each data point
       date: formatShortDate(item.date),
       fullDate: formatDate(item.date),
       price: parseFloat(item.price_per_gram_mad.toFixed(2))
@@ -191,12 +192,13 @@ const EnhancedPriceChart = ({ historyData, loading, timeframe, onTimeframeChange
             />
 
             <XAxis
-              dataKey="date"
+              dataKey="dateKey"
               tick={{ fill: '#9ca3af', fontSize: 10 }}
               axisLine={{ stroke: '#e5e7eb' }}
               tickLine={false}
               interval="preserveStartEnd"
               dy={8}
+              tickFormatter={(value) => formatShortDate(value)}
             />
 
             <YAxis
@@ -243,7 +245,7 @@ const EnhancedPriceChart = ({ historyData, loading, timeframe, onTimeframeChange
             {/* Min Point */}
             {minPoint && chartData.length > 2 && (
               <ReferenceDot
-                x={minPoint.date}
+                x={minPoint.dateKey}
                 y={minPoint.price}
                 r={4}
                 fill="#ef4444"
@@ -255,7 +257,7 @@ const EnhancedPriceChart = ({ historyData, loading, timeframe, onTimeframeChange
             {/* Max Point */}
             {maxPoint && chartData.length > 2 && (
               <ReferenceDot
-                x={maxPoint.date}
+                x={maxPoint.dateKey}
                 y={maxPoint.price}
                 r={4}
                 fill="#10b981"

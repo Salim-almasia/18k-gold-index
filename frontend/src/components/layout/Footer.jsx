@@ -3,14 +3,23 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#002FA7] mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <footer className="bg-[#002FA7] mt-auto relative overflow-hidden">
+      {/* Mosaic Pattern Overlay */}
+      <div className="absolute inset-0 opacity-[0.03]">
+        <div className="absolute inset-0" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
+        }} />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
         {/* Logo */}
         <div className="flex justify-center mb-6">
-          <Link to="/" className="flex items-center gap-0.5">
-            <span className="text-white text-3xl font-bold tracking-tight">|||</span>
-            <span className="text-white text-3xl font-bold">18k</span>
-            <span className="text-white/60 text-3xl font-light">.ma</span>
+          <Link to="/" className="flex items-center">
+            <img
+              src="/logo-18k.svg"
+              alt="18k.ma"
+              className="h-9"
+            />
           </Link>
         </div>
 

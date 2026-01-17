@@ -13,10 +13,16 @@ import DashboardLayout from './components/layout/DashboardLayout';
 import PriceInfo from './components/dashboard/PriceInfo';
 import EnhancedPriceChart from './components/dashboard/EnhancedPriceChart';
 import EditorialBlock from './components/dashboard/EditorialBlock';
+import WhyFollowGold from './components/dashboard/WhyFollowGold';
 
 // Admin components
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
+
+// Pages
+import HomePage from './components/pages/HomePage';
+import Blog from './components/pages/Blog';
+import ArticlePage from './components/pages/ArticlePage';
 
 const TIMEFRAMES = [
   { key: '1d', label: '1j' },
@@ -72,7 +78,7 @@ function App() {
     setTimeframe(newTimeframe);
   }, []);
 
-  const HomePage = () => (
+  const PricePage = ({ showWhySection = false }) => (
     <DashboardLayout>
       {error ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -93,7 +99,7 @@ function App() {
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             {/* Page Title */}
-            <div className="text-center mb-6">
+            <div className="text-center py-4 mb-6">
               <h1 className="font-title text-2xl lg:text-3xl font-bold text-[#002FA7]">
                 Cours de l'Or 18 Carats au Maroc
               </h1>
@@ -147,8 +153,24 @@ function App() {
             </div>
           </div>
 
+          {/* Separator */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
+            <div className="flex items-center gap-4">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D2A24C]"></span>
+                <span className="w-2 h-2 rounded-full bg-[#002FA7]"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D2A24C]"></span>
+              </div>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+            </div>
+          </div>
+
           {/* Editorial Block */}
           <EditorialBlock />
+
+          {/* Why Follow Gold Section - Only on /prix-de-lor */}
+          {showWhySection && <WhyFollowGold />}
         </>
       )}
     </DashboardLayout>
@@ -159,6 +181,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/prix-de-lor" element={<PricePage showWhySection={true} />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<ArticlePage />} />
           <Route
             path="/admin/login"
             element={<AdminLogin onLogin={handleLogin} />}
