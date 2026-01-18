@@ -84,9 +84,9 @@ export const LanguageProvider = ({ children }) => {
     return path.replace(/^\/ar/, '');
   };
 
-  // Get path without language prefix
-  const getBasePath = (path) => {
-    return path.replace(/^\/ar/, '') || '/';
+  // Get language prefix for navigation ('' for French, '/ar' for Arabic)
+  const getBasePath = () => {
+    return language === 'ar' ? '/ar' : '';
   };
 
   return (
