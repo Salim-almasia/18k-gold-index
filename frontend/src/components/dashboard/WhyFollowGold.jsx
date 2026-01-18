@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 
 const WhyFollowGold = () => {
+  const { isRTL, getLocalizedPath } = useLanguage();
+
   return (
     <>
       {/* Separator */}
@@ -18,13 +21,13 @@ const WhyFollowGold = () => {
       </div>
 
       {/* Why Follow Gold Section */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section className={`py-12 px-4 sm:px-6 lg:px-8 bg-gray-50 ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-5xl mx-auto">
           {/* Card Container */}
           <div className="bg-white border border-gray-100 rounded-2xl p-8 lg:p-10 shadow-sm">
             {/* Title */}
             <h2 className="text-center text-xl lg:text-2xl font-bold text-[#002FA7] mb-10">
-              Pourquoi suivre le cours de l'or ?
+              {isRTL ? 'لماذا تتابع سعر الذهب؟' : "Pourquoi suivre le cours de l'or ?"}
             </h2>
 
             {/* Grid 2x2 */}
@@ -37,9 +40,13 @@ const WhyFollowGold = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-800 mb-1">Transparence du marché</h3>
+                  <h3 className="font-semibold text-gray-800 mb-1">
+                    {isRTL ? 'شفافية السوق' : 'Transparence du marché'}
+                  </h3>
                   <p className="text-sm text-gray-500 leading-relaxed">
-                    Accédez à des informations fiables et actualisées pour prendre des décisions éclairées.
+                    {isRTL
+                      ? 'احصل على معلومات موثوقة ومحدثة لاتخاذ قرارات مستنيرة.'
+                      : 'Accédez à des informations fiables et actualisées pour prendre des décisions éclairées.'}
                   </p>
                 </div>
               </div>
@@ -52,9 +59,13 @@ const WhyFollowGold = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-800 mb-1">Valeur refuge</h3>
+                  <h3 className="font-semibold text-gray-800 mb-1">
+                    {isRTL ? 'ملاذ آمن' : 'Valeur refuge'}
+                  </h3>
                   <p className="text-sm text-gray-500 leading-relaxed">
-                    L'or reste une valeur sûre pour protéger votre patrimoine contre l'inflation.
+                    {isRTL
+                      ? 'يظل الذهب قيمة آمنة لحماية ثروتك من التضخم.'
+                      : "L'or reste une valeur sûre pour protéger votre patrimoine contre l'inflation."}
                   </p>
                 </div>
               </div>
@@ -67,9 +78,13 @@ const WhyFollowGold = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-800 mb-1">Suivi des tendances</h3>
+                  <h3 className="font-semibold text-gray-800 mb-1">
+                    {isRTL ? 'متابعة الاتجاهات' : 'Suivi des tendances'}
+                  </h3>
                   <p className="text-sm text-gray-500 leading-relaxed">
-                    Analysez l'évolution des prix pour identifier les meilleurs moments d'achat ou de vente.
+                    {isRTL
+                      ? 'حلل تطور الأسعار لتحديد أفضل أوقات الشراء أو البيع.'
+                      : "Analysez l'évolution des prix pour identifier les meilleurs moments d'achat ou de vente."}
                   </p>
                 </div>
               </div>
@@ -83,9 +98,13 @@ const WhyFollowGold = () => {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-800 mb-1">Ancrage local</h3>
+                  <h3 className="font-semibold text-gray-800 mb-1">
+                    {isRTL ? 'ارتباط محلي' : 'Ancrage local'}
+                  </h3>
                   <p className="text-sm text-gray-500 leading-relaxed">
-                    Des données spécifiques au marché marocain, adaptées à vos besoins.
+                    {isRTL
+                      ? 'بيانات خاصة بالسوق المغربي، مكيفة لاحتياجاتك.'
+                      : 'Des données spécifiques au marché marocain, adaptées à vos besoins.'}
                   </p>
                 </div>
               </div>
@@ -94,13 +113,13 @@ const WhyFollowGold = () => {
             {/* CTA Button */}
             <div className="text-center">
               <Link
-                to="/blog"
+                to={getLocalizedPath('/blog')}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#002FA7] text-white font-semibold rounded-xl hover:bg-[#001f7a] transition-colors shadow-lg shadow-[#002FA7]/25"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
-                Consulter notre Blog
+                {isRTL ? 'زيارة مدونتنا' : 'Consulter notre Blog'}
               </Link>
             </div>
           </div>

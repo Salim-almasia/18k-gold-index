@@ -1,0 +1,267 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "goldPrice": "Prix de l'Or",
+    "blog": "Blog",
+    "contact": "Contact",
+    "faq": "FAQ"
+  },
+  "languages": {
+    "fr": "Français",
+    "ar": "العربية"
+  },
+  "home": {
+    "hero": {
+      "badge": "Mis à jour quotidiennement",
+      "title": "Prix de l'Or",
+      "titleHighlight": "Aujourd'hui",
+      "description": "Le prix de l'or en toute transparence. Un repère fiable pour suivre l'évolution du cours et prendre des décisions éclairées.",
+      "cta": "Voir le cours",
+      "blog": "Notre blog"
+    },
+    "stats": {
+      "reference": "Or de référence",
+      "purity": "Pureté garantie",
+      "access": "Accès en ligne"
+    },
+    "features": {
+      "reliable": "Information fiable",
+      "daily": "Actualisation quotidienne",
+      "moroccan": "Marché marocain",
+      "transparent": "Transparence totale"
+    },
+    "karat": {
+      "title": "L'or 18 carats, un standard d'excellence",
+      "description": "Équilibre parfait entre pureté, solidité et élégance. L'or 18k est au cœur de la bijouterie marocaine avec ses 75% d'or pur.",
+      "purity": "Pureté",
+      "solidity": "Solidité",
+      "elegance": "Élégance"
+    },
+    "vision": {
+      "title": "Une vision sobre",
+      "subtitle": "Espace d'information premium",
+      "description1": "18k.ma est pensé pour un public exigeant, à la recherche d'informations fiables et objectives sur le marché de l'or au Maroc. Le luxe véritable ne se proclame pas, il se reconnaît dans les détails, la rigueur et le respect du lecteur.",
+      "description2": "Nous défendons l'authenticité et la transparence, sans artifice ni exagération. Chaque donnée publiée reflète la réalité du marché, chaque analyse vise à éclairer vos décisions. Notre engagement : vous offrir un contenu de qualité, sobre et précis.",
+      "neutrality": "Neutralité",
+      "clarity": "Clarté",
+      "elegance": "Élégance"
+    },
+    "expertise": {
+      "title": "Notre Expertise",
+      "subtitle": "Découvrez nos domaines de spécialisation",
+      "explore": "Explorer la catégorie",
+      "discover": "Découvrir"
+    },
+    "cta": {
+      "title": "Suivez le cours de l'or",
+      "titleHighlight": "au quotidien",
+      "description": "Accédez à des informations fiables pour des décisions éclairées.",
+      "button": "Voir le cours actuel",
+      "blog": "Consulter le blog"
+    },
+    "newsletter": {
+      "title": "Restez informé des tendances du marché",
+      "description": "Recevez nos analyses exclusives, les variations du cours de l'or et les actualités du secteur directement dans votre boîte mail.",
+      "placeholder": "Votre adresse email",
+      "button": "S'inscrire"
+    }
+  },
+  "price": {
+    "pageTitle": "Cours de l'or brut 18 Carats au Maroc",
+    "subtitle": "Signal réel du marché au quotidien — Casablanca —",
+    "retry": "Réessayer",
+    "error": "Erreur lors du chargement des données. Veuillez réessayer."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Analyses, tendances et conseils d'experts pour comprendre le marché de l'or au Maroc.",
+    "allCategories": "Tous les articles",
+    "readMore": "Lire l'article",
+    "readingTime": "min de lecture",
+    "noArticles": "Aucun article trouvé",
+    "related": "Articles similaires",
+    "journal": "Le Journal de l'Or"
+  },
+  "article": {
+    "notFound": "Article non trouvé",
+    "loadError": "Erreur de chargement",
+    "errorDescription": "L'article que vous recherchez n'existe pas ou a été supprimé.",
+    "backToBlog": "Retour au blog",
+    "back": "Retour",
+    "views": "vues",
+    "share": "Partager cet article",
+    "viewAllArticles": "Voir tous les articles"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Une question ? Contactez-nous",
+    "heroTitle": "Échangeons sur",
+    "heroHighlight": "votre projet",
+    "heroDescription": "Une question ? Une suggestion ? Notre équipe est à votre disposition pour vous accompagner.",
+    "form": {
+      "title": "Envoyez-nous un message",
+      "subtitle": "Nous vous répondrons dans les plus brefs délais.",
+      "name": "Nom complet",
+      "namePlaceholder": "Votre nom",
+      "email": "Email",
+      "emailPlaceholder": "votre@email.com",
+      "subject": "Sujet",
+      "subjectPlaceholder": "Sélectionnez un sujet",
+      "subjectInfo": "Demande d'information",
+      "subjectPrice": "Question sur les prix",
+      "subjectPartnership": "Partenariat",
+      "subjectPress": "Presse & Média",
+      "subjectOther": "Autre",
+      "message": "Message",
+      "messagePlaceholder": "Décrivez votre demande...",
+      "captcha": "Recopiez :",
+      "captchaPlaceholder": "CODE",
+      "captchaError": "Code incorrect, veuillez réessayer.",
+      "send": "Envoyer le message",
+      "sending": "Envoi en cours...",
+      "success": "Message envoyé avec succès ! Nous vous répondrons rapidement.",
+      "error": "Erreur lors de l'envoi. Veuillez réessayer ou nous contacter directement par email."
+    },
+    "info": {
+      "email": "Email",
+      "social": "Réseaux sociaux"
+    }
+  },
+  "faq": {
+    "title": "Questions Fréquentes",
+    "subtitle": "Retrouvez les réponses aux questions les plus posées sur l'or au Maroc",
+    "eyebrow": "Aide",
+    "contactTitle": "Vous avez d'autres questions ?",
+    "contactDescription": "Notre équipe est disponible pour répondre à toutes vos interrogations.",
+    "contactButton": "Nous contacter",
+    "questions": [
+      {
+        "question": "Qu'est-ce que l'or 18 carats ?",
+        "answer": "L'or 18 carats (18K) est un alliage composé de 75% d'or pur et de 25% d'autres métaux (cuivre, argent, zinc). Cette composition offre un équilibre parfait entre pureté, durabilité et éclat, ce qui en fait le standard de référence pour la bijouterie de qualité au Maroc."
+      },
+      {
+        "question": "Comment est déterminé le prix de l'or au Maroc ?",
+        "answer": "Le prix de l'or au Maroc est influencé par plusieurs facteurs : le cours international de l'or (fixé à Londres), le taux de change USD/MAD, l'offre et la demande locale, ainsi que les coûts de transformation et de distribution. Notre plateforme suit ces variations pour vous fournir un prix indicatif actualisé quotidiennement."
+      },
+      {
+        "question": "Quelle est la différence entre l'or 18K, 21K et 24K ?",
+        "answer": "L'or 24K est de l'or pur (99.9%), très mou et peu adapté aux bijoux. L'or 21K contient 87.5% d'or pur, populaire dans certains pays du Golfe. L'or 18K, avec ses 75% d'or pur, est le plus utilisé au Maroc car il offre le meilleur compromis entre pureté et résistance pour les bijoux du quotidien."
+      },
+      {
+        "question": "Pourquoi le prix de l'or varie-t-il chaque jour ?",
+        "answer": "Le prix de l'or fluctue en fonction des marchés financiers internationaux, de la valeur du dollar américain, des taux d'intérêt, de l'inflation mondiale, et des événements géopolitiques. Ces facteurs créent une volatilité naturelle qui se répercute sur le prix local au Maroc."
+      },
+      {
+        "question": "Comment vérifier l'authenticité d'un bijou en or ?",
+        "answer": "Plusieurs méthodes existent : vérifiez le poinçon officiel (750 pour 18K), faites tester le bijou chez un bijoutier agréé avec un testeur d'or, ou demandez un certificat d'authenticité. Au Maroc, les bijoutiers sérieux fournissent une garantie et une facture détaillée."
+      },
+      {
+        "question": "Est-ce le bon moment pour acheter de l'or ?",
+        "answer": "18k.ma fournit des informations sur le cours de l'or à titre indicatif uniquement. Nous ne donnons pas de conseils d'investissement. La décision d'achat dépend de vos objectifs personnels. Consultez un conseiller financier pour toute décision d'investissement importante."
+      },
+      {
+        "question": "Quelle est la différence entre le prix de l'or brut et le prix d'un bijou ?",
+        "answer": "Le prix de l'or brut représente la valeur du métal seul. Le prix d'un bijou inclut en plus : le coût de la main-d'œuvre (façonnage), le design, la marque, les pierres éventuelles, et la marge du bijoutier. Un bijou peut donc coûter 20% à 100% de plus que la valeur de l'or qu'il contient."
+      },
+      {
+        "question": "Comment revendre mon or au Maroc ?",
+        "answer": "Vous pouvez revendre votre or chez les bijoutiers, les comptoirs d'achat d'or, ou les fonderies agréées. Le prix de rachat est généralement inférieur au prix de vente (environ 10-20% de moins) et dépend de la pureté, du poids, et de l'état du bijou. Comparez toujours plusieurs offres."
+      },
+      {
+        "question": "Les prix affichés sur 18k.ma sont-ils les prix en bijouterie ?",
+        "answer": "Non, les prix affichés sur 18k.ma représentent le cours indicatif de l'or 18 carats au gramme. Les prix en bijouterie incluent des frais supplémentaires (façonnage, marge, TVA). Nos prix servent de référence pour comprendre la valeur intrinsèque de l'or, pas le prix final d'un bijou."
+      },
+      {
+        "question": "Pourquoi suivre le cours de l'or ?",
+        "answer": "Suivre le cours de l'or permet de : mieux négocier lors d'un achat de bijoux, choisir le moment opportun pour vendre, comprendre la valeur de son patrimoine en or, et rester informé des tendances du marché. C'est un outil de transparence pour tout amateur de bijouterie."
+      }
+    ]
+  },
+  "footer": {
+    "description": "Votre source d'information de référence sur le cours de l'or 18 carats au Maroc.",
+    "navigation": "Navigation",
+    "legal": "Légal",
+    "followUs": "Suivez-nous",
+    "cgu": "Conditions d'utilisation",
+    "privacy": "Politique de confidentialité",
+    "cookies": "Politique de cookies",
+    "disclaimer": "Clause de non-responsabilité",
+    "rights": "Tous droits réservés"
+  },
+  "legal": {
+    "eyebrow": "Légal",
+    "lastUpdated": "Dernière mise à jour : Janvier 2026",
+    "contactUs": "Nous contacter",
+    "cgu": {
+      "title": "Conditions Générales d'Utilisation",
+      "intro": "Bienvenue sur <strong>18K.MA</strong>. En accédant à notre site, vous acceptez les présentes conditions générales d'utilisation. Nous vous invitons à les lire attentivement.",
+      "section1Title": "Objet du site",
+      "section1Content": "18K.MA est une plateforme d'information dédiée au suivi du cours de l'or 18 carats au Maroc. Le site propose des prix indicatifs en Dirham Marocain (MAD) par gramme, ainsi qu'un historique des variations et des contenus éditoriaux à caractère informatif.",
+      "section2Title": "Nature des informations",
+      "section2Warning": "<strong>Important :</strong> Les prix affichés sur 18K.MA sont fournis à titre purement indicatif et ne constituent en aucun cas une offre d'achat ou de vente.",
+      "section2Content": "Les cours présentés sont basés sur des sources de marché et peuvent varier selon les bijoutiers et commerçants. Nous vous recommandons de consulter un professionnel agréé pour toute transaction.",
+      "section3Title": "Propriété intellectuelle",
+      "section3Content": "L'ensemble des contenus présents sur 18K.MA (textes, graphiques, logos, images, données) sont protégés par le droit de la propriété intellectuelle. Toute reproduction, représentation ou diffusion, totale ou partielle, sans autorisation préalable est interdite.",
+      "section4Title": "Responsabilité",
+      "section4Content1": "18K.MA s'efforce de fournir des informations fiables et actualisées. Cependant, nous ne pouvons garantir l'exactitude, l'exhaustivité ou l'actualité des données présentées.",
+      "section4Content2": "L'utilisateur reconnaît utiliser ces informations sous sa propre responsabilité. 18K.MA ne saurait être tenu responsable des décisions prises sur la base des informations publiées sur le site.",
+      "section5Title": "Accès au site",
+      "section5Content": "L'accès au site est gratuit. 18K.MA se réserve le droit de modifier, suspendre ou interrompre l'accès au site à tout moment, sans préavis, notamment pour des raisons de maintenance ou de mise à jour.",
+      "section6Title": "Droit applicable",
+      "section6Content": "Les présentes conditions sont régies par le droit marocain. En cas de litige, et après tentative de résolution amiable, les tribunaux compétents de Casablanca seront seuls compétents.",
+      "section7Title": "Contact",
+      "section7Content": "Pour toute question concernant ces conditions, vous pouvez nous contacter :"
+    },
+    "privacy": {
+      "title": "Politique de Confidentialité",
+      "intro": "Chez <strong>18K.MA</strong>, nous attachons une grande importance à la protection de vos données personnelles. Cette politique explique comment nous collectons, utilisons et protégeons vos informations conformément à la loi marocaine n°09-08 relative à la protection des personnes physiques à l'égard du traitement des données à caractère personnel."
+    },
+    "cookies": {
+      "title": "Politique de Cookies",
+      "intro": "<strong>18K.MA</strong> utilise des cookies pour améliorer votre expérience de navigation. Cette page vous explique ce que sont les cookies, comment nous les utilisons et comment vous pouvez les gérer."
+    },
+    "disclaimer": {
+      "title": "Clause de non-responsabilité",
+      "intro": "Les informations publiées sur <strong>18K.MA</strong> sont fournies à titre purement informatif. En utilisant ce site, vous reconnaissez avoir pris connaissance des limitations et exclusions de responsabilité décrites ci-dessous."
+    }
+  },
+  "categories": {
+    "orValeur": {
+      "title": "Or & valeur",
+      "description": "Découvrez les fondamentaux de l'or : cours, investissement, économie mondiale et tout ce qui influence la valeur du métal jaune au Maroc et dans le monde."
+    },
+    "bijouterieHorlogerie": {
+      "title": "Bijouterie & horlogerie",
+      "description": "Plongez dans l'univers des bijoux précieux et des montres de luxe. Créations artisanales, grandes maisons et tendances actuelles."
+    },
+    "diamantPierres": {
+      "title": "Diamant & pierres",
+      "description": "Diamants, rubis, émeraudes et saphirs : apprenez à reconnaître, évaluer et choisir les pierres précieuses qui subliment vos bijoux."
+    },
+    "metierSavoirFaire": {
+      "title": "Métier & savoir-faire",
+      "description": "Découvrez les techniques ancestrales des artisans bijoutiers, les secrets de fabrication et le patrimoine des métiers de l'or."
+    },
+    "croyancesIdees": {
+      "title": "Croyances & idées reçues",
+      "description": "Mythes, légendes et fausses croyances sur l'or et les bijoux. Nous décryptons les idées reçues pour vous aider à mieux comprendre."
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "search": "Rechercher",
+    "all": "Tous",
+    "published": "Publié",
+    "draft": "Brouillon"
+  }
+}

@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'arabic': ['Noto Sans Arabic', 'Tahoma', 'Arial', 'sans-serif'],
+      },
       colors: {
         gold: {
           50: '#faf8f3',
@@ -41,5 +44,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }

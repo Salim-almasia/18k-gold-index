@@ -5,6 +5,7 @@ import {
   ReferenceDot
 } from 'recharts';
 import { formatPrice, formatDate, formatShortDate } from '../../utils/formatters';
+import { useLanguage } from '../../context/LanguageContext';
 
 const TIMEFRAMES = [
   { key: '1d', label: '1j', days: 1 },
@@ -16,6 +17,7 @@ const TIMEFRAMES = [
 ];
 
 const EnhancedPriceChart = ({ historyData, loading, timeframe, onTimeframeChange, onRefresh }) => {
+  const { isRTL } = useLanguage();
   const chartRef = useRef(null);
 
   const chartData = useMemo(() => {
@@ -128,22 +130,22 @@ const EnhancedPriceChart = ({ historyData, loading, timeframe, onTimeframeChange
 
   if (chartData.length === 0) {
     return (
-      <div className="bg-white border border-gray-200 rounded-xl p-5 h-full flex items-center justify-center">
+      <div className={`bg-white border border-gray-200 rounded-xl p-5 h-full flex items-center justify-center ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="text-gray-400 text-center py-12">
           <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
-          <p className="text-sm font-medium">Aucune donnée disponible</p>
+          <p className="text-sm font-medium">{isRTL ? 'لا تتوفر بيانات' : 'Aucune donnée disponible'}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 h-full flex flex-col">
+    <div className={`bg-white border border-gray-200 rounded-xl p-5 h-full flex flex-col ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-        <h3 className="text-[#002FA7] text-lg font-bold">Historique des Prix</h3>
+        <h3 className="text-[#002FA7] text-lg font-bold">{isRTL ? 'سجل الأسعار' : 'Historique des Prix'}</h3>
 
         {/* Timeframe Filter */}
         <div className="flex gap-1.5">
@@ -274,11 +276,11 @@ const EnhancedPriceChart = ({ historyData, loading, timeframe, onTimeframeChange
         <div className="flex items-center gap-4 text-xs text-gray-400">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span>Max</span>
+            <span>{isRTL ? 'الأعلى' : 'Max'}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-red-500"></span>
-            <span>Min</span>
+            <span>{isRTL ? 'الأدنى' : 'Min'}</span>
           </div>
         </div>
 
@@ -297,7 +299,7 @@ const EnhancedPriceChart = ({ historyData, loading, timeframe, onTimeframeChange
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
-            Actualiser
+            {isRTL ? 'تحديث' : 'Actualiser'}
           </button>
 
           <span className="text-gray-200">|</span>

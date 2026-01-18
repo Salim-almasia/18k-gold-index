@@ -4,10 +4,12 @@ import axios from 'axios';
 import API_URL from '../../config';
 import DashboardLayout from '../layout/DashboardLayout';
 import ArticleCard from '../blog/ArticleCard';
+import { useLanguage } from '../../context/LanguageContext';
 
 const ArticlePage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { t, isRTL, getLocalizedPath } = useLanguage();
   const [article, setArticle] = useState(null);
   const [relatedArticles, setRelatedArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,9 +30,9 @@ const ArticlePage = () => {
     } catch (err) {
       console.error('Error fetching article:', err);
       if (err.response?.status === 404) {
-        setError('Article non trouvé');
+        setError('notFound');
       } else {
-        setError('Erreur lors du chargement de l\'article');
+        setError('loadError');
       }
     } finally {
       setLoading(false);
@@ -46,11 +48,33 @@ const ArticlePage = () => {
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR', {
+    return date.toLocaleDateString(isRTL ? 'ar-MA' : 'fr-FR', {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
     });
+  };
+
+  // Get localized article content
+  const getArticleTitle = () => {
+    if (isRTL && article?.title_ar) {
+      return article.title_ar;
+    }
+    return article?.title || '';
+  };
+
+  const getArticleContent = () => {
+    if (isRTL && article?.content_ar) {
+      return article.content_ar;
+    }
+    return article?.content || '';
+  };
+
+  const getCategoryName = () => {
+    if (isRTL && article?.category?.name_ar) {
+      return article.category.name_ar;
+    }
+    return article?.category?.name || '';
   };
 
   const defaultImage = 'https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1200&h=600&fit=crop';
@@ -93,24 +117,26 @@ const ArticlePage = () => {
   if (error) {
     return (
       <DashboardLayout>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+        <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center ${isRTL ? 'font-arabic' : ''}`}>
           <div className="w-20 h-20 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <svg className="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">{error}</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            {error === 'notFound' ? t('article.notFound') : t('article.loadError')}
+          </h2>
           <p className="text-gray-500 mb-8">
-            L'article que vous recherchez n'existe pas ou a été supprimé.
+            {t('article.errorDescription')}
           </p>
           <Link
-            to="/blog"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#002FA7] text-white font-semibold rounded-xl hover:bg-[#001f7a] transition-colors"
+            to={getLocalizedPath('/blog')}
+            className={`inline-flex items-center gap-2 px-6 py-3 bg-[#002FA7] text-white font-semibold rounded-xl hover:bg-[#001f7a] transition-colors ${isRTL ? 'flex-row-reverse' : ''}`}
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Retour au blog
+            {t('article.backToBlog')}
           </Link>
         </div>
       </DashboardLayout>
@@ -120,37 +146,37 @@ const ArticlePage = () => {
   return (
     <DashboardLayout>
       {/* Article Header */}
-      <article className="pb-16">
+      <article className={`pb-16 ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
         {/* Hero Image */}
         <div className="relative h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden">
           <img
             src={article.image || defaultImage}
-            alt={article.title}
+            alt={getArticleTitle()}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
 
           {/* Back button */}
-          <div className="absolute top-6 left-6">
+          <div className={`absolute top-6 ${isRTL ? 'right-6' : 'left-6'}`}>
             <button
-              onClick={() => navigate('/blog')}
-              className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-gray-700 hover:bg-white transition-colors shadow-lg"
+              onClick={() => navigate(getLocalizedPath('/blog'))}
+              className={`flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-gray-700 hover:bg-white transition-colors shadow-lg ${isRTL ? 'flex-row-reverse' : ''}`}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Retour
+              {t('article.back')}
             </button>
           </div>
 
           {/* Category badge on image */}
           {article.category && (
-            <div className="absolute bottom-6 left-6">
+            <div className={`absolute bottom-6 ${isRTL ? 'right-6' : 'left-6'}`}>
               <span
                 className="inline-block px-4 py-2 text-sm font-semibold text-white rounded-full shadow-lg"
                 style={{ backgroundColor: article.category.color || '#D4AF37' }}
               >
-                {article.category.name}
+                {getCategoryName()}
               </span>
             </div>
           )}
@@ -159,14 +185,14 @@ const ArticlePage = () => {
         {/* Article Content */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Title and Meta */}
-          <div className="py-8 border-b border-gray-100">
+          <div className={`py-8 border-b border-gray-100 ${isRTL ? 'text-right' : ''}`}>
             <h1 className="font-title text-3xl md:text-4xl lg:text-5xl font-bold text-[#1A1A1A] leading-tight mb-6">
-              {article.title}
+              {getArticleTitle()}
             </h1>
 
             {/* Meta info */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-              <div className="flex items-center gap-2">
+            <div className={`flex flex-wrap items-center gap-4 text-sm text-gray-500 ${isRTL ? 'flex-row-reverse justify-end' : ''}`}>
+              <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -174,21 +200,21 @@ const ArticlePage = () => {
               </div>
 
               {article.reading_time && (
-                <div className="flex items-center gap-2">
+                <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span>{article.reading_time} min de lecture</span>
+                  <span>{article.reading_time} {t('blog.readingTime')}</span>
                 </div>
               )}
 
               {article.views > 0 && (
-                <div className="flex items-center gap-2">
+                <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  <span>{article.views.toLocaleString('fr-FR')} vues</span>
+                  <span>{article.views.toLocaleString(isRTL ? 'ar-MA' : 'fr-FR')} {t('article.views')}</span>
                 </div>
               )}
             </div>
@@ -196,25 +222,25 @@ const ArticlePage = () => {
 
           {/* Article Body */}
           <div
-            className="prose prose-lg max-w-none py-8
+            className={`prose prose-lg max-w-none py-8
               prose-headings:font-title prose-headings:text-[#1A1A1A]
               prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-10 prose-h2:mb-4
               prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-8 prose-h3:mb-3
               prose-p:text-gray-600 prose-p:leading-relaxed
               prose-a:text-[#002FA7] prose-a:no-underline hover:prose-a:underline
               prose-strong:text-[#1A1A1A]
-              prose-ul:list-disc prose-ul:pl-6
-              prose-ol:list-decimal prose-ol:pl-6
+              prose-ul:list-disc ${isRTL ? 'prose-ul:pr-6' : 'prose-ul:pl-6'}
+              prose-ol:list-decimal ${isRTL ? 'prose-ol:pr-6' : 'prose-ol:pl-6'}
               prose-li:text-gray-600 prose-li:my-2
-              prose-blockquote:border-l-4 prose-blockquote:border-[#D4AF37] prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-gray-500
-              prose-img:rounded-xl prose-img:shadow-lg"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+              prose-blockquote:border-[#D4AF37] ${isRTL ? 'prose-blockquote:border-r-4 prose-blockquote:pr-6' : 'prose-blockquote:border-l-4 prose-blockquote:pl-6'} prose-blockquote:italic prose-blockquote:text-gray-500
+              prose-img:rounded-xl prose-img:shadow-lg`}
+            dangerouslySetInnerHTML={{ __html: getArticleContent() }}
           />
 
           {/* Share Section */}
           <div className="py-8 border-t border-gray-100">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <span className="text-gray-500 font-medium">Partager cet article</span>
+            <div className={`flex flex-col sm:flex-row items-center justify-between gap-4 ${isRTL ? 'sm:flex-row-reverse' : ''}`}>
+              <span className="text-gray-500 font-medium">{t('article.share')}</span>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(window.location.href)}`, '_blank')}
@@ -260,7 +286,7 @@ const ArticlePage = () => {
 
       {/* Related Articles */}
       {relatedArticles.length > 0 && (
-        <section className="py-16 bg-[#FAFAFA]">
+        <section className={`py-16 bg-[#FAFAFA] ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Section Header */}
             <div className="text-center mb-10">
@@ -270,7 +296,7 @@ const ArticlePage = () => {
                 <span className="w-8 h-px bg-[#D4AF37]"></span>
               </div>
               <h2 className="font-title text-2xl lg:text-3xl font-bold text-[#1A1A1A]">
-                Articles similaires
+                {t('blog.related')}
               </h2>
             </div>
 
@@ -284,13 +310,13 @@ const ArticlePage = () => {
             {/* Back to Blog Button */}
             <div className="text-center mt-10">
               <Link
-                to="/blog"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-[#002FA7] hover:text-[#002FA7] transition-colors"
+                to={getLocalizedPath('/blog')}
+                className={`inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-[#002FA7] hover:text-[#002FA7] transition-colors ${isRTL ? 'flex-row-reverse' : ''}`}
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
-                Voir tous les articles
+                {t('article.viewAllArticles')}
               </Link>
             </div>
           </div>

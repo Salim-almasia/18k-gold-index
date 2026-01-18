@@ -1,19 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import API_URL from './config';
 
 // Context
 import { ThemeProvider } from './context/ThemeContext';
-
-// Layout
-import DashboardLayout from './components/layout/DashboardLayout';
-
-// Dashboard components
-import PriceInfo from './components/dashboard/PriceInfo';
-import EnhancedPriceChart from './components/dashboard/EnhancedPriceChart';
-import EditorialBlock from './components/dashboard/EditorialBlock';
-import WhyFollowGold from './components/dashboard/WhyFollowGold';
+import { LanguageProvider } from './context/LanguageContext';
 
 // Admin components
 import AdminLogin from './components/AdminLogin';
@@ -21,17 +13,27 @@ import AdminDashboard from './components/AdminDashboard';
 
 // Pages
 import HomePage from './components/pages/HomePage';
+import PricePage from './components/pages/PricePage';
 import Blog from './components/pages/Blog';
 import ArticlePage from './components/pages/ArticlePage';
+import Contact from './components/pages/Contact';
+import CGU from './components/pages/CGU';
+import PrivacyPolicy from './components/pages/PrivacyPolicy';
+import CookiesPolicy from './components/pages/CookiesPolicy';
+import Disclaimer from './components/pages/Disclaimer';
+import FAQ from './components/pages/FAQ';
+import NotFound from './components/pages/NotFound';
 
-const TIMEFRAMES = [
-  { key: '1d', label: '1j' },
-  { key: '5d', label: '5j' },
-  { key: '1m', label: '1m' },
-  { key: '3m', label: '3m' },
-  { key: '6m', label: '6m' },
-  { key: '1y', label: '1a' },
-];
+// Scroll to top on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 function App() {
   const [currentPrice, setCurrentPrice] = useState(null);
@@ -78,121 +80,75 @@ function App() {
     setTimeframe(newTimeframe);
   }, []);
 
-  const PricePage = ({ showWhySection = false }) => (
-    <DashboardLayout>
-      {error ? (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-white border border-gray-200 rounded-xl p-12 text-center">
-            <svg className="w-14 h-14 mx-auto mb-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-            <p className="text-red-500 text-base mb-4">{error}</p>
-            <button
-              onClick={fetchPriceData}
-              className="px-5 py-2 bg-[#002FA7] text-white text-sm font-semibold rounded-lg hover:bg-[#001f7a] transition-colors"
-            >
-              Réessayer
-            </button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {/* Page Title */}
-            <div className="text-center py-4 mb-6">
-              <h1 className="font-title text-2xl lg:text-3xl font-bold text-[#002FA7]">
-                Cours de l'Or 18 Carats au Maroc
-              </h1>
-              <p className="text-sm text-gray-400 mt-1 tracking-wide">
-                Signal réel du marché au quotidien — Casablanca —
-              </p>
-            </div>
+  // Helper to render PricePage with all required props
+  const renderPricePage = (showWhySection = false) => (
+    <PricePage
+      currentPrice={currentPrice}
+      historyData={historyData}
+      loading={loading}
+      error={error}
+      timeframe={timeframe}
+      onTimeframeChange={handleTimeframeChange}
+      onRefresh={fetchPriceData}
+      showWhySection={showWhySection}
+    />
+  );
 
-            {/* Mobile: Filter at top */}
-            <div className="lg:hidden mb-4">
-              <div className="flex justify-center gap-1.5">
-                {TIMEFRAMES.map(({ key, label }) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => handleTimeframeChange(key)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 ${
-                      timeframe === key
-                        ? 'bg-[#002FA7] text-white shadow-sm'
-                        : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-            </div>
+  // Define all routes (will be duplicated for /ar prefix)
+  const AppRoutes = () => (
+    <Routes>
+      {/* French Routes (default) */}
+      <Route path="/" element={<HomePage />} />
+      <Route path="/prix-de-lor" element={renderPricePage(true)} />
+      <Route path="/blog" element={<Blog />} />
+      <Route path="/blog/page/:page" element={<Blog />} />
+      <Route path="/blog/:category" element={<Blog />} />
+      <Route path="/blog/:category/page/:page" element={<Blog />} />
+      <Route path="/article/:slug" element={<ArticlePage />} />
+      <Route path="/contact" element={<Contact />} />
+      <Route path="/conditions-generales-utilisation" element={<CGU />} />
+      <Route path="/politique-de-confidentialite" element={<PrivacyPolicy />} />
+      <Route path="/politique-de-cookies" element={<CookiesPolicy />} />
+      <Route path="/clause-non-responsabilite" element={<Disclaimer />} />
+      <Route path="/faq" element={<FAQ />} />
 
-            {/* Main Layout: 1/3 + 2/3 */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-              {/* Left: Signal Or (1/3) */}
-              <div className="lg:col-span-1">
-                <PriceInfo
-                  currentPrice={currentPrice}
-                  historyData={historyData}
-                  loading={loading}
-                  selectedTimeframe={timeframe}
-                />
-              </div>
+      {/* Arabic Routes (/ar prefix) */}
+      <Route path="/ar" element={<HomePage />} />
+      <Route path="/ar/prix-de-lor" element={renderPricePage(true)} />
+      <Route path="/ar/blog" element={<Blog />} />
+      <Route path="/ar/blog/page/:page" element={<Blog />} />
+      <Route path="/ar/blog/:category" element={<Blog />} />
+      <Route path="/ar/blog/:category/page/:page" element={<Blog />} />
+      <Route path="/ar/article/:slug" element={<ArticlePage />} />
+      <Route path="/ar/contact" element={<Contact />} />
+      <Route path="/ar/conditions-generales-utilisation" element={<CGU />} />
+      <Route path="/ar/politique-de-confidentialite" element={<PrivacyPolicy />} />
+      <Route path="/ar/politique-de-cookies" element={<CookiesPolicy />} />
+      <Route path="/ar/clause-non-responsabilite" element={<Disclaimer />} />
+      <Route path="/ar/faq" element={<FAQ />} />
 
-              {/* Right: Chart (2/3) */}
-              <div className="lg:col-span-2">
-                <EnhancedPriceChart
-                  historyData={historyData}
-                  loading={loading}
-                  timeframe={timeframe}
-                  onTimeframeChange={handleTimeframeChange}
-                  onRefresh={fetchPriceData}
-                />
-              </div>
-            </div>
-          </div>
+      {/* Admin Routes (no language prefix) */}
+      <Route
+        path="/admin/login"
+        element={<AdminLogin onLogin={handleLogin} />}
+      />
+      <Route
+        path="/admin/dashboard"
+        element={<AdminDashboard token={adminToken} onLogout={handleLogout} />}
+      />
 
-          {/* Separator */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
-            <div className="flex items-center gap-4">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D2A24C]"></span>
-                <span className="w-2 h-2 rounded-full bg-[#002FA7]"></span>
-                <span className="w-1.5 h-1.5 rounded-full bg-[#D2A24C]"></span>
-              </div>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-            </div>
-          </div>
-
-          {/* Editorial Block */}
-          <EditorialBlock />
-
-          {/* Why Follow Gold Section - Only on /prix-de-lor */}
-          {showWhySection && <WhyFollowGold />}
-        </>
-      )}
-    </DashboardLayout>
+      {/* 404 - Page not found */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 
   return (
     <ThemeProvider>
       <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/prix-de-lor" element={<PricePage showWhySection={true} />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<ArticlePage />} />
-          <Route
-            path="/admin/login"
-            element={<AdminLogin onLogin={handleLogin} />}
-          />
-          <Route
-            path="/admin/dashboard"
-            element={<AdminDashboard token={adminToken} onLogout={handleLogout} />}
-          />
-        </Routes>
+        <LanguageProvider>
+          <ScrollToTop />
+          <AppRoutes />
+        </LanguageProvider>
       </Router>
     </ThemeProvider>
   );

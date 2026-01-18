@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from '../layout/DashboardLayout';
+import { useLanguage } from '../../context/LanguageContext';
 
 const HomePage = () => {
+  const { t, isRTL, getLocalizedPath } = useLanguage();
+
+  useEffect(() => {
+    document.title = isRTL
+      ? 'وسائط المجوهرات والساعات الفاخرة في المغرب | أخبار'
+      : 'Média Bijoux & Horlogerie de Luxe au Maroc | Actualités';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', isRTL
+        ? 'المرجع الإعلامي في المغرب للذهب والمجوهرات والساعات الفاخرة: أخبار، اتجاهات، تحليلات وعالم حصري للمهنيين والهواة.'
+        : 'Le média de référence au Maroc sur l\'or, les bijoux et l\'horlogerie de luxe : actualités, tendances, analyses et univers exclusif pour professionnels et passionnés.'
+      );
+    }
+  }, [isRTL]);
+
   return (
     <DashboardLayout>
       {/* Hero Section - Clean White */}
-      <section className="bg-white pt-8 pb-12 lg:pt-12 lg:pb-16">
+      <section className={`bg-white pt-8 pb-12 lg:pt-12 lg:pb-16 ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Text Content - 5 cols */}
@@ -16,33 +32,32 @@ const HomePage = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D2A24C] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D2A24C]"></span>
                 </span>
-                <span className="text-xs font-medium text-[#002FA7]">Mis à jour quotidiennement</span>
+                <span className="text-xs font-medium text-[#002FA7]">{t('home.hero.badge')}</span>
               </div>
 
               <h1 className="text-3xl lg:text-5xl font-bold text-[#002FA7] mb-3 leading-[1.1]">
-                Prix de l'Or <span className="text-[#D2A24C]">Aujourd'hui</span>
+                {t('home.hero.title')} <span className="text-[#D2A24C]">{t('home.hero.titleHighlight')}</span>
               </h1>
 
               <p className="text-gray-600 mb-6 leading-relaxed">
-                Le prix de l'or en toute transparence. Un repère fiable pour suivre
-                l'évolution du cours et prendre des décisions éclairées.
+                {t('home.hero.description')}
               </p>
 
               <div className="flex flex-wrap gap-3">
                 <Link
-                  to="/prix-de-lor"
+                  to={getLocalizedPath('/prix-de-lor')}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-[#002FA7] text-white text-sm font-semibold rounded-lg hover:bg-[#001f7a] transition-all shadow-lg shadow-[#002FA7]/20"
                 >
-                  Voir le cours
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {t('home.hero.cta')}
+                  <svg className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
                 </Link>
                 <Link
-                  to="/blog"
+                  to={getLocalizedPath('/blog')}
                   className="inline-flex items-center gap-2 px-6 py-3 border border-gray-200 text-gray-700 text-sm font-semibold rounded-lg hover:border-[#002FA7] hover:text-[#002FA7] transition-all"
                 >
-                  Notre blog
+                  {t('home.hero.blog')}
                 </Link>
               </div>
 
@@ -50,50 +65,50 @@ const HomePage = () => {
               <div className="flex gap-6 mt-8 pt-6 border-t border-gray-100">
                 <div>
                   <p className="text-2xl font-bold text-[#002FA7]">18K</p>
-                  <p className="text-xs text-gray-500">Or de référence</p>
+                  <p className="text-xs text-gray-500">{t('home.stats.reference')}</p>
                 </div>
                 <div className="w-px bg-gray-200"></div>
                 <div>
                   <p className="text-2xl font-bold text-[#D2A24C]">75%</p>
-                  <p className="text-xs text-gray-500">Pureté garantie</p>
+                  <p className="text-xs text-gray-500">{t('home.stats.purity')}</p>
                 </div>
                 <div className="w-px bg-gray-200"></div>
                 <div>
                   <p className="text-2xl font-bold text-gray-800">24/7</p>
-                  <p className="text-xs text-gray-500">Accès en ligne</p>
+                  <p className="text-xs text-gray-500">{t('home.stats.access')}</p>
                 </div>
               </div>
             </div>
 
             {/* Image - 7 cols */}
-            <div className="lg:col-span-7 relative">
+            <div className={`lg:col-span-7 relative ${isRTL ? 'lg:order-first' : ''}`}>
               <div className="relative">
                 {/* Main Image */}
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <img
                     src="https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=2070&auto=format&fit=crop"
-                    alt="Lingots d'or"
+                    alt={isRTL ? "سبائك الذهب" : "Lingots d'or"}
                     className="w-full h-[320px] lg:h-[400px] object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-tr from-[#002FA7]/20 via-transparent to-[#D2A24C]/10"></div>
                 </div>
 
                 {/* Floating Card */}
-                <div className="absolute -bottom-4 left-4 lg:left-8 bg-white rounded-xl shadow-xl border border-gray-100 p-4 flex items-center gap-4">
+                <div className={`absolute -bottom-4 ${isRTL ? 'right-4 lg:right-8' : 'left-4 lg:left-8'} bg-white rounded-xl shadow-xl border border-gray-100 p-4 flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#D2A24C] to-[#b8893f] flex items-center justify-center">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
                   </div>
-                  <div>
-                    <p className="text-xs text-gray-500">Cours Or 18K</p>
-                    <p className="text-lg font-bold text-[#002FA7]">MAD / gramme</p>
+                  <div className={isRTL ? 'text-right' : ''}>
+                    <p className="text-xs text-gray-500">{isRTL ? 'سعر الذهب 18 قيراط' : 'Cours Or 18K'}</p>
+                    <p className="text-lg font-bold text-[#002FA7]">{isRTL ? 'درهم / غرام' : 'MAD / gramme'}</p>
                   </div>
                 </div>
 
                 {/* Decorative */}
-                <div className="absolute -top-2 -right-2 w-20 h-20 border-2 border-[#D2A24C]/20 rounded-xl -z-10"></div>
-                <div className="absolute -bottom-2 -right-2 w-32 h-32 bg-[#002FA7]/5 rounded-full -z-10 blur-2xl"></div>
+                <div className={`absolute -top-2 ${isRTL ? '-left-2' : '-right-2'} w-20 h-20 border-2 border-[#D2A24C]/20 rounded-xl -z-10`}></div>
+                <div className={`absolute -bottom-2 ${isRTL ? '-left-2' : '-right-2'} w-32 h-32 bg-[#002FA7]/5 rounded-full -z-10 blur-2xl`}></div>
               </div>
             </div>
           </div>
@@ -101,39 +116,39 @@ const HomePage = () => {
       </section>
 
       {/* Features Bar */}
-      <section className="bg-[#002FA7] py-4">
+      <section className={`bg-[#002FA7] py-4 ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center lg:justify-between items-center gap-4 lg:gap-8">
             <div className="flex items-center gap-2 text-white/90">
               <svg className="w-5 h-5 text-[#D2A24C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-sm font-medium">Information fiable</span>
+              <span className="text-sm font-medium">{t('home.features.reliable')}</span>
             </div>
             <div className="flex items-center gap-2 text-white/90">
               <svg className="w-5 h-5 text-[#D2A24C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-sm font-medium">Actualisation quotidienne</span>
+              <span className="text-sm font-medium">{t('home.features.daily')}</span>
             </div>
             <div className="flex items-center gap-2 text-white/90">
               <svg className="w-5 h-5 text-[#D2A24C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span className="text-sm font-medium">Marché marocain</span>
+              <span className="text-sm font-medium">{t('home.features.moroccan')}</span>
             </div>
             <div className="flex items-center gap-2 text-white/90">
               <svg className="w-5 h-5 text-[#D2A24C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
-              <span className="text-sm font-medium">Transparence totale</span>
+              <span className="text-sm font-medium">{t('home.features.transparent')}</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* L'or 18 carats + Vision sobre - Combined */}
-      <section className="bg-gray-50 py-12 lg:py-16">
+      <section className={`bg-gray-50 py-12 lg:py-16 ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Left - 18K Card */}
@@ -141,21 +156,20 @@ const HomePage = () => {
               <div className="relative h-48">
                 <img
                   src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop"
-                  alt="Bijoux en or 18 carats"
+                  alt={isRTL ? "مجوهرات ذهب 18 قيراط" : "Bijoux en or 18 carats"}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-                <div className="absolute bottom-4 left-4">
-                  <span className="px-3 py-1 bg-[#D2A24C] text-white text-xs font-bold rounded-full">18 CARATS</span>
+                <div className={`absolute bottom-4 ${isRTL ? 'right-4' : 'left-4'}`}>
+                  <span className="px-3 py-1 bg-[#D2A24C] text-white text-xs font-bold rounded-full">{isRTL ? '18 قيراط' : '18 CARATS'}</span>
                 </div>
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-[#002FA7] mb-2">
-                  L'or 18 carats, un standard d'excellence
+                  {t('home.karat.title')}
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  Équilibre parfait entre pureté, solidité et élégance. L'or 18k est au cœur
-                  de la bijouterie marocaine avec ses 75% d'or pur.
+                  {t('home.karat.description')}
                 </p>
                 <div className="flex gap-4">
                   <div className="flex items-center gap-2">
@@ -164,7 +178,7 @@ const HomePage = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-600">Pureté</span>
+                    <span className="text-xs text-gray-600">{t('home.karat.purity')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-[#D2A24C]/10 flex items-center justify-center">
@@ -172,7 +186,7 @@ const HomePage = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-600">Solidité</span>
+                    <span className="text-xs text-gray-600">{t('home.karat.solidity')}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-[#002FA7]/10 flex items-center justify-center">
@@ -180,7 +194,7 @@ const HomePage = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-xs text-gray-600">Élégance</span>
+                    <span className="text-xs text-gray-600">{t('home.karat.elegance')}</span>
                   </div>
                 </div>
               </div>
@@ -194,19 +208,15 @@ const HomePage = () => {
                     <span className="text-lg font-bold text-white">18K</span>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-[#002FA7]">Une vision sobre</h3>
-                    <p className="text-xs text-gray-500">Espace d'information premium</p>
+                    <h3 className="text-xl font-bold text-[#002FA7]">{t('home.vision.title')}</h3>
+                    <p className="text-xs text-gray-500">{t('home.vision.subtitle')}</p>
                   </div>
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  18k.ma est pensé pour un public exigeant, à la recherche d'informations fiables
-                  et objectives sur le marché de l'or au Maroc. Le luxe véritable ne se proclame pas,
-                  il se reconnaît dans les détails, la rigueur et le respect du lecteur.
+                  {t('home.vision.description1')}
                 </p>
                 <p className="text-gray-500 text-sm leading-relaxed mb-6">
-                  Nous défendons l'authenticité et la transparence, sans artifice ni exagération.
-                  Chaque donnée publiée reflète la réalité du marché, chaque analyse vise à éclairer
-                  vos décisions. Notre engagement : vous offrir un contenu de qualité, sobre et précis.
+                  {t('home.vision.description2')}
                 </p>
               </div>
 
@@ -216,20 +226,20 @@ const HomePage = () => {
                   <svg className="w-6 h-6 mx-auto mb-2 text-[#002FA7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                   </svg>
-                  <span className="text-xs font-semibold text-[#002FA7]">Neutralité</span>
+                  <span className="text-xs font-semibold text-[#002FA7]">{t('home.vision.neutrality')}</span>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-gray-50 hover:bg-[#D2A24C]/5 transition-colors">
                   <svg className="w-6 h-6 mx-auto mb-2 text-[#D2A24C]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  <span className="text-xs font-semibold text-[#D2A24C]">Clarté</span>
+                  <span className="text-xs font-semibold text-[#D2A24C]">{t('home.vision.clarity')}</span>
                 </div>
                 <div className="text-center p-3 rounded-xl bg-gray-50 hover:bg-[#002FA7]/5 transition-colors">
                   <svg className="w-6 h-6 mx-auto mb-2 text-[#002FA7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                   </svg>
-                  <span className="text-xs font-semibold text-[#002FA7]">Élégance</span>
+                  <span className="text-xs font-semibold text-[#002FA7]">{t('home.vision.elegance')}</span>
                 </div>
               </div>
             </div>
@@ -238,13 +248,13 @@ const HomePage = () => {
       </section>
 
       {/* Expertise Section */}
-      <section className="bg-white py-12 lg:py-16">
+      <section className={`bg-white py-12 lg:py-16 ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl lg:text-3xl font-bold text-[#002FA7]">Notre Expertise</h2>
-              <p className="text-gray-500 text-sm mt-1">Découvrez nos domaines de spécialisation</p>
+              <h2 className="text-2xl lg:text-3xl font-bold text-[#002FA7]">{t('home.expertise.title')}</h2>
+              <p className="text-gray-500 text-sm mt-1">{t('home.expertise.subtitle')}</p>
             </div>
             <div className="hidden lg:flex items-center gap-1">
               <div className="w-8 h-1 bg-[#D2A24C] rounded-full"></div>
@@ -252,68 +262,117 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* Cards Grid */}
+          {/* Or & valeur - Wide Rectangular Card */}
+          <Link to={getLocalizedPath('/blog/or-valeur')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[320px] block mb-6">
+            <img
+              src="https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=2070&auto=format&fit=crop"
+              alt={t('categories.orValeur.title')}
+              className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className={`absolute inset-0 ${isRTL ? 'bg-gradient-to-l' : 'bg-gradient-to-r'} from-[#1A1A1A] via-[#1A1A1A]/70 to-transparent`}></div>
+            <div className={`absolute inset-0 p-8 lg:p-10 flex flex-col justify-center max-w-2xl ${isRTL ? 'right-0 text-right items-end' : ''}`}>
+              <div className="w-12 h-12 rounded-xl bg-[#D2A24C] flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">{t('categories.orValeur.title')}</h3>
+              <p className="text-white/80 text-sm leading-relaxed mb-4 max-w-lg">
+                {t('categories.orValeur.description')}
+              </p>
+              <span className={`inline-flex items-center gap-2 text-[#D2A24C] text-sm font-semibold group-hover:gap-3 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
+                {t('home.expertise.explore')}
+                <svg className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
+            </div>
+          </Link>
+
+          {/* 4 cards in 2 rows x 2 columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Bijoux Card */}
-            <Link to="/blog" className="group relative rounded-xl overflow-hidden h-[280px] block">
+            {/* Bijouterie & horlogerie */}
+            <Link to={getLocalizedPath('/blog/bijouterie-horlogerie')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[300px] block">
               <img
                 src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2070&auto=format&fit=crop"
-                alt="Bijoux en or"
+                alt={t('categories.bijouterieHorlogerie.title')}
                 className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#002FA7] via-[#002FA7]/60 to-transparent"></div>
-              <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#D2A24C] flex items-center justify-center">
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Bijoux en or</h3>
-                    <p className="text-white/70 text-sm">La valeur avant tout</p>
-                  </div>
-                </div>
-                <p className="text-white/80 text-sm leading-relaxed mb-3">
-                  Un bijou est un objet de style et de valeur. Nous vous aidons à comprendre
-                  le juste prix.
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
+              <div className={`absolute inset-0 p-6 flex flex-col justify-end ${isRTL ? 'text-right items-end' : ''}`}>
+                <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">{t('categories.bijouterieHorlogerie.title')}</h3>
+                <p className="text-white/60 text-sm leading-relaxed mb-4 max-w-md">
+                  {t('categories.bijouterieHorlogerie.description')}
                 </p>
-                <span className="inline-flex items-center gap-1 text-[#D2A24C] text-sm font-medium group-hover:gap-2 transition-all">
-                  Découvrir
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className={`inline-flex items-center gap-1 text-[#D2A24C] text-sm font-medium group-hover:gap-2 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  {t('home.expertise.discover')}
+                  <svg className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </span>
               </div>
             </Link>
 
-            {/* Horlogerie Card */}
-            <Link to="/blog" className="group relative rounded-xl overflow-hidden h-[280px] block">
+            {/* Diamant & pierres */}
+            <Link to={getLocalizedPath('/blog/diamant-pierres')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[300px] block">
               <img
-                src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?q=80&w=2070&auto=format&fit=crop"
-                alt="Horlogerie de luxe"
+                src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop"
+                alt={t('categories.diamantPierres.title')}
                 className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#002FA7] via-[#002FA7]/60 to-transparent"></div>
-              <div className="absolute inset-0 p-6 flex flex-col justify-end">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-[#D2A24C] flex items-center justify-center">
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white">Horlogerie de luxe</h3>
-                    <p className="text-white/70 text-sm">L'élégance du temps</p>
-                  </div>
-                </div>
-                <p className="text-white/80 text-sm leading-relaxed mb-3">
-                  Les grandes montres traversent le temps avec caractère. Certaines deviennent
-                  des icônes.
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
+              <div className={`absolute inset-0 p-6 flex flex-col justify-end ${isRTL ? 'text-right items-end' : ''}`}>
+                <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">{t('categories.diamantPierres.title')}</h3>
+                <p className="text-white/60 text-sm leading-relaxed mb-4 max-w-md">
+                  {t('categories.diamantPierres.description')}
                 </p>
-                <span className="inline-flex items-center gap-1 text-[#D2A24C] text-sm font-medium group-hover:gap-2 transition-all">
-                  Découvrir
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span className={`inline-flex items-center gap-1 text-[#D2A24C] text-sm font-medium group-hover:gap-2 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  {t('home.expertise.discover')}
+                  <svg className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </Link>
+
+            {/* Métier & savoir-faire */}
+            <Link to={getLocalizedPath('/blog/metier-savoir-faire')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[300px] block">
+              <img
+                src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=2070&auto=format&fit=crop"
+                alt={t('categories.metierSavoirFaire.title')}
+                className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
+              <div className={`absolute inset-0 p-6 flex flex-col justify-end ${isRTL ? 'text-right items-end' : ''}`}>
+                <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">{t('categories.metierSavoirFaire.title')}</h3>
+                <p className="text-white/60 text-sm leading-relaxed mb-4 max-w-md">
+                  {t('categories.metierSavoirFaire.description')}
+                </p>
+                <span className={`inline-flex items-center gap-1 text-[#D2A24C] text-sm font-medium group-hover:gap-2 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  {t('home.expertise.discover')}
+                  <svg className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </Link>
+
+            {/* Croyances & idées reçues */}
+            <Link to={getLocalizedPath('/blog/croyances-idees-recues')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[300px] block">
+              <img
+                src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?q=80&w=2070&auto=format&fit=crop"
+                alt={t('categories.croyancesIdees.title')}
+                className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
+              <div className={`absolute inset-0 p-6 flex flex-col justify-end ${isRTL ? 'text-right items-end' : ''}`}>
+                <h3 className="text-xl lg:text-2xl font-bold text-white mb-3">{t('categories.croyancesIdees.title')}</h3>
+                <p className="text-white/60 text-sm leading-relaxed mb-4 max-w-md">
+                  {t('categories.croyancesIdees.description')}
+                </p>
+                <span className={`inline-flex items-center gap-1 text-[#D2A24C] text-sm font-medium group-hover:gap-2 transition-all ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  {t('home.expertise.discover')}
+                  <svg className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </span>
@@ -324,33 +383,83 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-br from-[#002FA7] to-[#001a5c] py-12 lg:py-14">
+      <section className={`bg-gradient-to-br from-[#002FA7] to-[#001a5c] py-12 lg:py-14 ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-            <div className="text-center lg:text-left">
+            <div className="text-center lg:text-start">
               <h2 className="text-2xl lg:text-3xl font-bold text-white mb-2">
-                Suivez le cours de l'or <span className="text-[#D2A24C]">au quotidien</span>
+                {t('home.cta.title')} <span className="text-[#D2A24C]">{t('home.cta.titleHighlight')}</span>
               </h2>
               <p className="text-white/60 text-sm">
-                Accédez à des informations fiables pour des décisions éclairées.
+                {t('home.cta.description')}
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
-                to="/prix-de-lor"
+                to={getLocalizedPath('/prix-de-lor')}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#D2A24C] text-white text-sm font-semibold rounded-lg hover:bg-[#b8893f] transition-all"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
-                Voir le cours actuel
+                {t('home.cta.button')}
               </Link>
               <Link
-                to="/blog"
+                to={getLocalizedPath('/blog')}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white text-sm font-semibold rounded-lg hover:bg-white/20 transition-all border border-white/20"
               >
-                Consulter le blog
+                {t('home.cta.blog')}
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className={`bg-white py-16 lg:py-20 ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[#D2A24C] to-[#b8893f] mb-6 shadow-lg shadow-[#D2A24C]/20">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl lg:text-3xl font-bold text-[#1A1A1A] mb-3">
+                {t('home.newsletter.title')}
+              </h2>
+              <p className="text-gray-500 leading-relaxed max-w-xl mx-auto">
+                {t('home.newsletter.description')}
+              </p>
+            </div>
+
+            {/* Form */}
+            <div className="bg-gray-50 rounded-2xl p-8 lg:p-10 border border-gray-100">
+              <form className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1 relative">
+                  <div className="absolute inset-y-0 start-4 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                    </svg>
+                  </div>
+                  <input
+                    type="email"
+                    placeholder={t('home.newsletter.placeholder')}
+                    className="w-full ps-12 pe-4 py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#002FA7] focus:ring-2 focus:ring-[#002FA7]/10 transition-all"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#002FA7] text-white font-semibold rounded-xl hover:bg-[#001f7a] transition-all shadow-lg shadow-[#002FA7]/20 whitespace-nowrap"
+                >
+                  {t('home.newsletter.button')}
+                  <svg className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </button>
+              </form>
+
             </div>
           </div>
         </div>

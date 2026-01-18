@@ -25,7 +25,9 @@ const BlogAdmin = ({ token }) => {
         axios.get(`${API_URL}/api/blog/categories`),
         axios.get(`${API_URL}/api/admin/blog/stats`, headers)
       ]);
-      setArticles(articlesRes.data || []);
+      // Handle paginated response: {articles: [...], total, page, ...}
+      const articlesData = articlesRes.data?.articles || articlesRes.data || [];
+      setArticles(Array.isArray(articlesData) ? articlesData : []);
       setCategories(categoriesRes.data || []);
       setStats(statsRes.data);
     } catch (error) {
@@ -64,6 +66,20 @@ const BlogAdmin = ({ token }) => {
       fetchData();
     } catch (error) {
       showMessage('error', 'Erreur: cette catégorie contient peut-être des articles');
+    }
+  };
+
+  const handleEditArticle = async (article) => {
+    // Fetch full article data to get all fields
+    try {
+      const response = await axios.get(`${API_URL}/api/admin/blog/articles/${article.id}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      setEditingArticle(response.data);
+      setShowArticleForm(true);
+    } catch (error) {
+      console.error('Error fetching article:', error);
+      showMessage('error', 'Erreur lors du chargement de l\'article');
     }
   };
 
@@ -261,6 +277,9 @@ const BlogAdmin = ({ token }) => {
                       <div className="flex items-start justify-between gap-4">
                         <div>
                           <h3 className="font-medium text-gray-800 truncate">{article.title}</h3>
+                          {article.title_ar && (
+                            <p className="text-sm text-gray-500 truncate" dir="rtl">{article.title_ar}</p>
+                          )}
                           <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
                             {article.category && (
                               <span
@@ -291,10 +310,7 @@ const BlogAdmin = ({ token }) => {
                           </span>
 
                           <button
-                            onClick={() => {
-                              setEditingArticle(article);
-                              setShowArticleForm(true);
-                            }}
+                            onClick={() => handleEditArticle(article)}
                             className="p-2 text-gray-400 hover:text-[#002FA7] hover:bg-gray-100 rounded-lg transition-colors"
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -357,7 +373,15 @@ const BlogAdmin = ({ token }) => {
                       className="w-4 h-4 rounded-full"
                       style={{ backgroundColor: category.color }}
                     ></div>
-                    <span className="font-medium text-gray-800">{category.name}</span>
+                    <div>
+                      <span className="font-medium text-gray-800">{category.name}</span>
+                      {category.name_ar && (
+                        <span className="text-gray-500 mx-2">|</span>
+                      )}
+                      {category.name_ar && (
+                        <span className="text-gray-600" dir="rtl">{category.name_ar}</span>
+                      )}
+                    </div>
                     <span className="text-xs text-gray-400">/{category.slug}</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -428,22 +452,56 @@ const BlogAdmin = ({ token }) => {
   );
 };
 
-// Article Form Modal Component
+// Article Form Modal Component with Language Tabs
 const ArticleFormModal = ({ article, categories, token, onClose, onSave }) => {
+  const [langTab, setLangTab] = useState('fr');
   const [formData, setFormData] = useState({
-    title: article?.title || '',
-    excerpt: article?.excerpt || '',
-    content: article?.content || '',
-    image: article?.image || '',
-    category_id: article?.category_id || '',
-    status: article?.status || 'draft',
-    reading_time: article?.reading_time || 5,
-    meta_title: article?.meta_title || '',
-    meta_description: article?.meta_description || ''
+    // French content
+    title: '',
+    excerpt: '',
+    content: '',
+    meta_title: '',
+    meta_description: '',
+    // Arabic content
+    title_ar: '',
+    excerpt_ar: '',
+    content_ar: '',
+    meta_title_ar: '',
+    meta_description_ar: '',
+    // Common fields
+    image: '',
+    category_id: '',
+    status: 'draft',
+    reading_time: 5,
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+
+  // Update form data when article changes (fixes the edit bug)
+  useEffect(() => {
+    if (article) {
+      setFormData({
+        // French content
+        title: article.title || '',
+        excerpt: article.excerpt || '',
+        content: article.content || '',
+        meta_title: article.meta_title || '',
+        meta_description: article.meta_description || '',
+        // Arabic content
+        title_ar: article.title_ar || '',
+        excerpt_ar: article.excerpt_ar || '',
+        content_ar: article.content_ar || '',
+        meta_title_ar: article.meta_title_ar || '',
+        meta_description_ar: article.meta_description_ar || '',
+        // Common fields
+        image: article.image || '',
+        category_id: article.category_id || '',
+        status: article.status || 'draft',
+        reading_time: article.reading_time || 5,
+      });
+    }
+  }, [article]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -504,8 +562,8 @@ const ArticleFormModal = ({ article, categories, token, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between z-10">
           <h2 className="text-lg font-semibold text-gray-800">
             {article ? 'Modifier l\'article' : 'Nouvel article'}
           </h2>
@@ -526,154 +584,261 @@ const ArticleFormModal = ({ article, categories, token, onClose, onSave }) => {
             </div>
           )}
 
-          {/* Title */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Titre *</label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
-              placeholder="Titre de l'article"
-            />
+          {/* Language Tabs */}
+          <div className="flex gap-2 border-b border-gray-200 pb-2">
+            <button
+              type="button"
+              onClick={() => setLangTab('fr')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                langTab === 'fr'
+                  ? 'bg-[#002FA7] text-white'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              <span>🇫🇷</span>
+              Français
+            </button>
+            <button
+              type="button"
+              onClick={() => setLangTab('ar')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 ${
+                langTab === 'ar'
+                  ? 'bg-[#002FA7] text-white'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              <span>🇲🇦</span>
+              العربية
+            </button>
           </div>
 
-          {/* Excerpt */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Extrait</label>
-            <textarea
-              name="excerpt"
-              value={formData.excerpt}
-              onChange={handleChange}
-              rows={2}
-              maxLength={300}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none resize-none"
-              placeholder="Court résumé de l'article (max 300 caractères)"
-            />
-          </div>
-
-          {/* Content */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Contenu *</label>
-            <textarea
-              name="content"
-              value={formData.content}
-              onChange={handleChange}
-              required
-              rows={10}
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none resize-none font-mono text-sm"
-              placeholder="Contenu HTML de l'article..."
-            />
-            <p className="text-xs text-gray-400 mt-1">Vous pouvez utiliser du HTML pour le formatage</p>
-          </div>
-
-          {/* Image */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
-            <div className="flex gap-4">
-              <div className="flex-1">
+          {/* French Content */}
+          {langTab === 'fr' && (
+            <div className="space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Titre (FR) *</label>
                 <input
                   type="text"
-                  name="image"
-                  value={formData.image}
+                  name="title"
+                  value={formData.title}
                   onChange={handleChange}
+                  required
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
-                  placeholder="URL de l'image"
+                  placeholder="Titre de l'article en français"
                 />
               </div>
-              <label className="px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 cursor-pointer transition-colors flex items-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                {uploading ? 'Upload...' : 'Upload'}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-              </label>
-            </div>
-            {formData.image && (
-              <div className="mt-2 w-32 h-20 rounded-lg overflow-hidden">
-                <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
-              </div>
-            )}
-          </div>
 
-          {/* Category and Status */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
-              <select
-                name="category_id"
-                value={formData.category_id}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
-              >
-                <option value="">Sans catégorie</option>
-                {categories.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.name}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Statut</label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
-              >
-                <option value="draft">Brouillon</option>
-                <option value="published">Publié</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Reading time */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Temps de lecture (minutes)</label>
-            <input
-              type="number"
-              name="reading_time"
-              value={formData.reading_time}
-              onChange={handleChange}
-              min="1"
-              className="w-32 px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
-            />
-          </div>
-
-          {/* SEO Fields */}
-          <div className="border-t border-gray-100 pt-5">
-            <h3 className="text-sm font-semibold text-gray-800 mb-4">SEO (Optionnel)</h3>
-            <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Meta Title</label>
-                <input
-                  type="text"
-                  name="meta_title"
-                  value={formData.meta_title}
-                  onChange={handleChange}
-                  maxLength={200}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
-                  placeholder="Titre pour les moteurs de recherche"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Meta Description</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Extrait (FR)</label>
                 <textarea
-                  name="meta_description"
-                  value={formData.meta_description}
+                  name="excerpt"
+                  value={formData.excerpt}
                   onChange={handleChange}
                   rows={2}
                   maxLength={300}
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none resize-none"
-                  placeholder="Description pour les moteurs de recherche"
+                  placeholder="Court résumé de l'article (max 300 caractères)"
                 />
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Contenu (FR) *</label>
+                <textarea
+                  name="content"
+                  value={formData.content}
+                  onChange={handleChange}
+                  required
+                  rows={10}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none resize-none font-mono text-sm"
+                  placeholder="Contenu HTML de l'article..."
+                />
+                <p className="text-xs text-gray-400 mt-1">Vous pouvez utiliser du HTML pour le formatage</p>
+              </div>
+
+              <div className="border-t border-gray-100 pt-5">
+                <h3 className="text-sm font-semibold text-gray-800 mb-4">SEO Français (Optionnel)</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Meta Title (FR)</label>
+                    <input
+                      type="text"
+                      name="meta_title"
+                      value={formData.meta_title}
+                      onChange={handleChange}
+                      maxLength={200}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
+                      placeholder="Titre pour les moteurs de recherche"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Meta Description (FR)</label>
+                    <textarea
+                      name="meta_description"
+                      value={formData.meta_description}
+                      onChange={handleChange}
+                      rows={2}
+                      maxLength={300}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none resize-none"
+                      placeholder="Description pour les moteurs de recherche"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Arabic Content */}
+          {langTab === 'ar' && (
+            <div className="space-y-5" dir="rtl">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 text-right">العنوان (AR)</label>
+                <input
+                  type="text"
+                  name="title_ar"
+                  value={formData.title_ar}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none text-right"
+                  placeholder="عنوان المقال بالعربية"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 text-right">الملخص (AR)</label>
+                <textarea
+                  name="excerpt_ar"
+                  value={formData.excerpt_ar}
+                  onChange={handleChange}
+                  rows={2}
+                  maxLength={300}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none resize-none text-right"
+                  placeholder="ملخص قصير للمقال (300 حرف كحد أقصى)"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 text-right">المحتوى (AR)</label>
+                <textarea
+                  name="content_ar"
+                  value={formData.content_ar}
+                  onChange={handleChange}
+                  rows={10}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none resize-none font-mono text-sm text-right"
+                  placeholder="محتوى المقال بصيغة HTML..."
+                />
+                <p className="text-xs text-gray-400 mt-1 text-right">يمكنك استخدام HTML للتنسيق</p>
+              </div>
+
+              <div className="border-t border-gray-100 pt-5">
+                <h3 className="text-sm font-semibold text-gray-800 mb-4 text-right">SEO بالعربية (اختياري)</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2 text-right">Meta Title (AR)</label>
+                    <input
+                      type="text"
+                      name="meta_title_ar"
+                      value={formData.meta_title_ar}
+                      onChange={handleChange}
+                      maxLength={200}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none text-right"
+                      placeholder="عنوان لمحركات البحث"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2 text-right">Meta Description (AR)</label>
+                    <textarea
+                      name="meta_description_ar"
+                      value={formData.meta_description_ar}
+                      onChange={handleChange}
+                      rows={2}
+                      maxLength={300}
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none resize-none text-right"
+                      placeholder="وصف لمحركات البحث"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Common Fields */}
+          <div className="border-t border-gray-100 pt-5">
+            <h3 className="text-sm font-semibold text-gray-800 mb-4">Paramètres généraux</h3>
+
+            {/* Image */}
+            <div className="mb-5">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    name="image"
+                    value={formData.image}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
+                    placeholder="URL de l'image"
+                  />
+                </div>
+                <label className="px-4 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 cursor-pointer transition-colors flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  {uploading ? 'Upload...' : 'Upload'}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {formData.image && (
+                <div className="mt-2 w-32 h-20 rounded-lg overflow-hidden">
+                  <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                </div>
+              )}
+            </div>
+
+            {/* Category and Status */}
+            <div className="grid grid-cols-2 gap-4 mb-5">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                <select
+                  name="category_id"
+                  value={formData.category_id}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
+                >
+                  <option value="">Sans catégorie</option>
+                  {categories.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
+                >
+                  <option value="draft">Brouillon</option>
+                  <option value="published">Publié</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Reading time */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Temps de lecture (minutes)</label>
+              <input
+                type="number"
+                name="reading_time"
+                value={formData.reading_time}
+                onChange={handleChange}
+                min="1"
+                className="w-32 px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
+              />
             </div>
           </div>
 
@@ -706,14 +871,26 @@ const ArticleFormModal = ({ article, categories, token, onClose, onSave }) => {
   );
 };
 
-// Category Form Modal Component
+// Category Form Modal Component with Arabic Name
 const CategoryFormModal = ({ category, token, onClose, onSave }) => {
   const [formData, setFormData] = useState({
-    name: category?.name || '',
-    color: category?.color || '#D4AF37'
+    name: '',
+    name_ar: '',
+    color: '#D4AF37'
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Update form data when category changes
+  useEffect(() => {
+    if (category) {
+      setFormData({
+        name: category.name || '',
+        name_ar: category.name_ar || '',
+        color: category.color || '#D4AF37'
+      });
+    }
+  }, [category]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -763,14 +940,26 @@ const CategoryFormModal = ({ category, token, onClose, onSave }) => {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Nom *</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Nom (FR) *</label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               required
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none"
-              placeholder="Nom de la catégorie"
+              placeholder="Nom de la catégorie en français"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">الاسم (AR)</label>
+            <input
+              type="text"
+              value={formData.name_ar}
+              onChange={(e) => setFormData(prev => ({ ...prev, name_ar: e.target.value }))}
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#002FA7]/20 focus:border-[#002FA7] outline-none text-right"
+              placeholder="اسم الفئة بالعربية"
+              dir="rtl"
             />
           </div>
 

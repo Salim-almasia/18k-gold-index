@@ -27,6 +27,7 @@ app = FastAPI(title="Gold Price API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "https://gold-prices-frontend-1022015820987.us-central1.run.app",
         "https://gold-prices-frontend-250518917656.us-central1.run.app",
         "https://almasia-landing-250518917656.us-central1.run.app",
         "https://18k.ma",
@@ -79,7 +80,9 @@ class CurrentPriceResponse(BaseModel):
 # Blog Pydantic models
 class CategoryBase(BaseModel):
     name: str
+    name_ar: Optional[str] = None
     color: Optional[str] = "#D4AF37"
+    position: Optional[int] = 0
 
 
 class CategoryCreate(CategoryBase):
@@ -96,15 +99,23 @@ class CategoryResponse(CategoryBase):
 
 
 class ArticleBase(BaseModel):
+    # French content
     title: str
     excerpt: Optional[str] = None
     content: str
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    # Arabic content
+    title_ar: Optional[str] = None
+    excerpt_ar: Optional[str] = None
+    content_ar: Optional[str] = None
+    meta_title_ar: Optional[str] = None
+    meta_description_ar: Optional[str] = None
+    # Common fields
     image: Optional[str] = None
     category_id: Optional[int] = None
     status: Optional[str] = "draft"
     reading_time: Optional[int] = 5
-    meta_title: Optional[str] = None
-    meta_description: Optional[str] = None
     published_at: Optional[datetime] = None
 
 
@@ -113,32 +124,49 @@ class ArticleCreate(ArticleBase):
 
 
 class ArticleUpdate(BaseModel):
+    # French content
     title: Optional[str] = None
     excerpt: Optional[str] = None
     content: Optional[str] = None
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    # Arabic content
+    title_ar: Optional[str] = None
+    excerpt_ar: Optional[str] = None
+    content_ar: Optional[str] = None
+    meta_title_ar: Optional[str] = None
+    meta_description_ar: Optional[str] = None
+    # Common fields
     image: Optional[str] = None
     category_id: Optional[int] = None
     status: Optional[str] = None
     reading_time: Optional[int] = None
-    meta_title: Optional[str] = None
-    meta_description: Optional[str] = None
     published_at: Optional[datetime] = None
 
 
 class ArticleResponse(BaseModel):
     id: int
+    # French content
     title: str
     slug: str
     excerpt: Optional[str]
     content: str
+    meta_title: Optional[str]
+    meta_description: Optional[str]
+    # Arabic content
+    title_ar: Optional[str]
+    slug_ar: Optional[str]
+    excerpt_ar: Optional[str]
+    content_ar: Optional[str]
+    meta_title_ar: Optional[str]
+    meta_description_ar: Optional[str]
+    # Common fields
     image: Optional[str]
     category_id: Optional[int]
     category: Optional[CategoryResponse]
     status: str
     views: int
     reading_time: int
-    meta_title: Optional[str]
-    meta_description: Optional[str]
     published_at: Optional[datetime]
     created_at: datetime
     updated_at: datetime
@@ -149,9 +177,15 @@ class ArticleResponse(BaseModel):
 
 class ArticleListResponse(BaseModel):
     id: int
+    # French content
     title: str
     slug: str
     excerpt: Optional[str]
+    # Arabic content
+    title_ar: Optional[str]
+    slug_ar: Optional[str]
+    excerpt_ar: Optional[str]
+    # Common fields
     image: Optional[str]
     category: Optional[CategoryResponse]
     status: str
@@ -201,6 +235,254 @@ UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
+# Seed prices data function
+def seed_prices_data(db: Session):
+    """Seed sample price data"""
+    if db.query(Price).count() > 0:
+        print("✓ Prices already exist, skipping seed")
+        return
+
+    print("🌱 Seeding price data...")
+    prices_data = [
+        ("2026-01-17", 1113.0), ("2026-01-16", 1125.0), ("2026-01-15", 1125.0),
+        ("2026-01-14", 1130.0), ("2026-01-13", 1082.0), ("2026-01-12", 1080.0),
+        ("2026-01-11", 1040.0), ("2026-01-10", 1030.0), ("2026-01-09", 1015.0),
+        ("2026-01-08", 1015.0), ("2026-01-07", 1015.0), ("2026-01-06", 1015.0),
+        ("2026-01-05", 1015.0), ("2026-01-04", 980.0), ("2026-01-03", 980.0),
+        ("2026-01-02", 985.0), ("2026-01-01", 985.0), ("2025-12-31", 985.0),
+        ("2025-12-30", 990.0), ("2025-12-29", 995.0), ("2025-12-28", 1005.0),
+        ("2025-12-27", 1000.0), ("2025-12-26", 993.0), ("2025-12-25", 990.0),
+        ("2025-12-24", 990.0), ("2025-12-23", 992.0), ("2025-12-22", 980.0),
+        ("2025-12-21", 970.0), ("2025-12-20", 960.0), ("2025-12-19", 970.0),
+    ]
+    for date_str, price in prices_data:
+        db.add(Price(date=date.fromisoformat(date_str), price_per_gram_mad=price))
+    db.commit()
+    print(f"✓ Seeded {len(prices_data)} price entries")
+
+
+# Seed blog data function
+def seed_blog_data(db: Session):
+    """Seed blog categories and articles from existing data"""
+    if db.query(Category).count() > 0:
+        print("✓ Blog categories already exist, skipping seed")
+        return
+
+    print("🌱 Seeding blog categories and articles...")
+
+    # Create categories (matching existing local data)
+    categories_data = [
+        {"name": "Or & valeur", "name_ar": "الذهب والقيمة", "slug": "or-valeur", "color": "#D4AF37", "position": 1},
+        {"name": "Bijouterie & horlogerie", "name_ar": "المجوهرات والساعات", "slug": "bijouterie-horlogerie", "color": "#8B7355", "position": 2},
+        {"name": "Diamant & pierres", "name_ar": "الماس والأحجار", "slug": "diamant-pierres", "color": "#B9F2FF", "position": 3},
+        {"name": "Métier & savoir-faire", "name_ar": "المهنة والخبرة", "slug": "metier-savoir-faire", "color": "#C19A6B", "position": 4},
+        {"name": "Croyances & idées reçues", "name_ar": "معتقدات وأفكار شائعة", "slug": "croyances-idees-recues", "color": "#9B59B6", "position": 5},
+    ]
+
+    categories = {}
+    for cat_data in categories_data:
+        category = Category(**cat_data)
+        db.add(category)
+        db.flush()
+        categories[cat_data["slug"]] = category
+
+    # Create articles (existing articles with Arabic translations)
+    articles_data = [
+        {
+            "title": "Comment est calculé le prix d'un bijou en or ?",
+            "title_ar": "كيف يُحسب سعر مجوهرات الذهب؟",
+            "slug": "comment-est-calcule-le-prix-dun-bijou-en-or",
+            "excerpt": "L'or fascine autant par sa beauté que par sa valeur. Découvrez comment est réellement calculé le prix d'un bijou en or au Maroc, du cours mondial à la main-d'œuvre artisanale.",
+            "excerpt_ar": "يأسر الذهب بجماله وقيمته على حد سواء. اكتشف كيف يُحسب فعلياً سعر مجوهرات الذهب في المغرب، من السعر العالمي إلى العمل الحرفي.",
+            "content": """<p>L'or fascine autant par sa beauté que par sa valeur. Pourtant, beaucoup de personnes se demandent comment est réellement calculé le prix d'un bijou en or. Pourquoi deux bagues au design similaire peuvent-elles coûter des montants différents ? Cette question revient souvent, aussi bien chez les acheteurs que chez les passionnés de bijoux.</p>
+
+<h2>Les bases : comprendre l'or et ses carats</h2>
+<h3>Qu'est-ce que le carat ?</h3>
+<p>Le carat est l'unité qui permet de mesurer la pureté de l'or utilisé dans un bijou. L'or pur correspond à 24 carats. Comme il est très malléable et fragile, on le mélange à d'autres métaux (argent, cuivre, palladium, etc.) afin d'obtenir un alliage plus solide et plus adapté à la fabrication de bijoux.</p>
+<p>À titre indicatif :</p>
+<ul>
+<li><strong>24 carats</strong> = or pur</li>
+<li><strong>22 carats</strong> = 91,6 % d'or</li>
+<li><strong>21 carats</strong> = 87,5 % d'or</li>
+<li><strong>18 carats</strong> = 75 % d'or</li>
+<li><strong>14 carats</strong> = 58,5 % d'or</li>
+<li><strong>9 carats</strong> = 37,5 % d'or</li>
+</ul>
+
+<h3>Quels carats utilise-t-on le plus au Maroc ?</h3>
+<p>Au Maroc, l'or 18 carats (750/1000) est la référence officielle et la plus utilisée dans le commerce réglementé. C'est ce que l'on retrouve dans la grande majorité des bijouteries, car il offre un bon équilibre entre pureté, solidité et valeur.</p>
+
+<h2>Le premier facteur : le cours de l'or</h2>
+<h3>Comment est fixé le prix de l'or ?</h3>
+<p>Le prix de l'or n'est pas décidé par les bijoutiers ; il est déterminé sur les marchés internationaux. Ce cours officiel évolue en continu et peut varier d'un jour à l'autre. Le prix est fixé d'abord en dollars par once (unité de mesure internationale), puis converti en dirhams selon le taux de change du moment.</p>
+
+<h2>Le deuxième facteur : le poids du bijou</h2>
+<p>Le poids du bijou est un élément essentiel dans le calcul de son prix. En bijouterie, l'or est toujours pesé avec une balance électronique très précise, au gramme près, voire au centième de gramme.</p>
+
+<h2>Le troisième facteur : la main-d'œuvre et le travail artisanal</h2>
+<p>Une part importante du prix d'un bijou en or correspond à la main-d'œuvre. Cette main-d'œuvre recouvre plusieurs étapes essentielles : la conception, la fabrication, les finitions et le sertissage éventuel des pierres.</p>""",
+            "content_ar": """<p>يأسر الذهب بجماله وقيمته على حد سواء. ومع ذلك، يتساءل الكثيرون كيف يُحسب فعلياً سعر مجوهرات الذهب. لماذا قد تكلف خاتمان بتصميم مماثل مبالغ مختلفة؟ هذا السؤال يتكرر كثيراً بين المشترين وعشاق المجوهرات.</p>
+
+<h2>الأساسيات: فهم الذهب وقراريطه</h2>
+<h3>ما هو القيراط؟</h3>
+<p>القيراط هو وحدة قياس نقاء الذهب المستخدم في المجوهرات. الذهب الخالص يعادل 24 قيراطاً. ولأنه طري وهش جداً، يُخلط مع معادن أخرى (الفضة، النحاس، البلاديوم، إلخ) للحصول على سبيكة أقوى وأنسب لصناعة المجوهرات.</p>
+<p>للإشارة:</p>
+<ul>
+<li><strong>24 قيراط</strong> = ذهب خالص</li>
+<li><strong>22 قيراط</strong> = 91.6% ذهب</li>
+<li><strong>21 قيراط</strong> = 87.5% ذهب</li>
+<li><strong>18 قيراط</strong> = 75% ذهب</li>
+<li><strong>14 قيراط</strong> = 58.5% ذهب</li>
+<li><strong>9 قراريط</strong> = 37.5% ذهب</li>
+</ul>
+
+<h3>ما هي القراريط الأكثر استخداماً في المغرب؟</h3>
+<p>في المغرب، يعتبر الذهب 18 قيراطاً (750/1000) المرجع الرسمي والأكثر استخداماً في التجارة المنظمة. هذا ما نجده في غالبية محلات المجوهرات، لأنه يوفر توازناً جيداً بين النقاء والمتانة والقيمة.</p>
+
+<h2>العامل الأول: سعر الذهب</h2>
+<h3>كيف يُحدد سعر الذهب؟</h3>
+<p>سعر الذهب لا يحدده الصاغة؛ بل يُحدد في الأسواق الدولية. هذا السعر الرسمي يتطور باستمرار ويمكن أن يتغير من يوم لآخر. يُحدد السعر أولاً بالدولار للأونصة (وحدة القياس الدولية)، ثم يُحول إلى الدرهم حسب سعر الصرف.</p>
+
+<h2>العامل الثاني: وزن المجوهرات</h2>
+<p>وزن المجوهرات عنصر أساسي في حساب سعرها. في صناعة المجوهرات، يُوزن الذهب دائماً بميزان إلكتروني دقيق جداً، بالغرام أو حتى بجزء من مئة من الغرام.</p>
+
+<h2>العامل الثالث: اليد العاملة والعمل الحرفي</h2>
+<p>جزء مهم من سعر مجوهرات الذهب يعود لليد العاملة. هذه اليد العاملة تشمل عدة مراحل أساسية: التصميم، التصنيع، التشطيبات وترصيع الأحجار المحتمل.</p>""",
+            "category_slug": "or-valeur",
+            "image": "https://www.18k.ma/blog/wp-content/uploads/2025/12/Blog-Hero-Comp.png",
+            "reading_time": 10
+        },
+        {
+            "title": "Comment comparer deux bagues en or au même prix ?",
+            "title_ar": "كيف تقارن بين خاتمين ذهبيين بنفس السعر؟",
+            "slug": "comment-comparer-deux-bagues-en-or-au-meme-prix",
+            "excerpt": "Deux bagues en or 18 carats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur. Découvrez les facteurs clés pour faire un choix éclairé.",
+            "excerpt_ar": "قد يُعرض خاتمان من الذهب 18 قيراط بنفس السعر، لكن هذا لا يعني أن لهما نفس القيمة. اكتشف العوامل الرئيسية لاتخاذ قرار مستنير.",
+            "content": """<p>Deux bagues en or 18 carats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur. En bijouterie, plusieurs facteurs entrent en jeu : le poids du métal, le type de fabrication, la complexité du design, ou encore la présence de pierres.</p>
+
+<h2>Poids et structure de la bague</h2>
+<p>Le poids d'une bague en or est l'un des éléments les plus concrets pour évaluer sa valeur. Même si deux modèles sont vendus au même prix, leur masse réelle d'or peut varier.</p>
+
+<h3>Pourquoi le poids compte ?</h3>
+<p>L'or est un métal précieux vendu au gramme. Plus une bague est lourde, plus elle contient d'or pur, donc plus sa valeur « matière » est élevée.</p>
+
+<h2>Design et finition</h2>
+<p>Le design d'une bague influence directement le temps et le savoir-faire nécessaires à sa fabrication. Un modèle au style minimaliste, fabriqué en série, demandera moins de main-d'œuvre qu'un modèle orné de détails complexes.</p>
+
+<h2>Pierres et matériaux ajoutés</h2>
+<p>L'ajout de pierres peut augmenter le prix final d'une bague sans pour autant augmenter la quantité d'or qu'elle contient.</p>""",
+            "content_ar": """<p>قد يُعرض خاتمان من الذهب 18 قيراط بنفس السعر، لكن هذا لا يعني أن لهما نفس القيمة. في صناعة المجوهرات، تدخل عدة عوامل: وزن المعدن، نوع الصناعة، تعقيد التصميم، أو وجود الأحجار.</p>
+
+<h2>وزن وهيكل الخاتم</h2>
+<p>وزن خاتم الذهب هو أحد العناصر الأكثر واقعية لتقييم قيمته. حتى لو بيع نموذجان بنفس السعر، قد تختلف كتلتهما الفعلية من الذهب.</p>
+
+<h3>لماذا يهم الوزن؟</h3>
+<p>الذهب معدن ثمين يُباع بالغرام. كلما كان الخاتم أثقل، زاد محتواه من الذهب الخالص، وبالتالي ارتفعت قيمته "المادية".</p>
+
+<h2>التصميم والتشطيب</h2>
+<p>يؤثر تصميم الخاتم مباشرة على الوقت والمهارة اللازمين لصنعه. النموذج البسيط المصنع على نطاق واسع يتطلب يد عاملة أقل من النموذج المزخرف بتفاصيل معقدة.</p>
+
+<h2>الأحجار والمواد المضافة</h2>
+<p>إضافة الأحجار يمكن أن ترفع السعر النهائي للخاتم دون زيادة كمية الذهب التي يحتويها.</p>""",
+            "category_slug": "or-valeur",
+            "image": "https://www.18k.ma/blog/wp-content/uploads/2020/06/3-1.png",
+            "reading_time": 8
+        },
+        {
+            "title": "Comment reconnaître un bijou en or authentique ?",
+            "title_ar": "كيف تتعرف على مجوهرات الذهب الأصلية؟",
+            "slug": "comment-reconnaitre-un-bijou-en-or-authentique",
+            "excerpt": "Reconnaître un bijou en or véritable est essentiel pour éviter les contrefaçons. Découvrez les méthodes pour distinguer l'or authentique d'une imitation.",
+            "excerpt_ar": "التعرف على مجوهرات الذهب الحقيقية أمر ضروري لتجنب التزوير. اكتشف الطرق للتمييز بين الذهب الأصلي والتقليد.",
+            "content": """<p>Reconnaître un bijou en or véritable est essentiel pour éviter les contrefaçons, surtout face à la montée des imitations trompeuses sur le marché.</p>
+
+<h2>Les caractéristiques de l'or authentique</h2>
+<h3>La pureté de l'or : carats et alliages</h3>
+<p>L'unité de mesure la plus utilisée pour évaluer la pureté de l'or est le carat (K). L'or pur, c'est-à-dire sans aucun autre métal ajouté, est désigné comme 24 carats, soit 99,9 % d'or.</p>
+
+<h2>Les méthodes pour reconnaître un bijou en or véritable</h2>
+<h3>Rechercher les poinçons officiels</h3>
+<p>L'un des premiers réflexes pour vérifier l'authenticité d'un bijou en or, c'est de regarder s'il porte un poinçon. Au Maroc, le poinçon le plus courant est la tête d'aigle, symbole utilisé pour certifier que le bijou est bien en or 18K.</p>
+
+<h3>Utiliser un aimant</h3>
+<p>L'or est un métal non magnétique. Cela signifie qu'un bijou en or véritable ne réagit pas à l'aimant.</p>
+
+<h2>Faire appel à un professionnel</h2>
+<p>Dans nos villes marocaines, les bijoutiers de quartier ont souvent des années d'expérience dans le travail et la reconnaissance de l'or.</p>""",
+            "content_ar": """<p>التعرف على مجوهرات الذهب الحقيقية أمر ضروري لتجنب التزوير، خاصة مع تزايد التقليدات المخادعة في السوق.</p>
+
+<h2>خصائص الذهب الأصلي</h2>
+<h3>نقاء الذهب: القراريط والسبائك</h3>
+<p>وحدة القياس الأكثر استخداماً لتقييم نقاء الذهب هي القيراط (K). الذهب الخالص، أي بدون أي معدن مضاف، يُعين بـ 24 قيراطاً، أي 99.9% ذهب.</p>
+
+<h2>طرق التعرف على مجوهرات الذهب الحقيقية</h2>
+<h3>البحث عن الأختام الرسمية</h3>
+<p>أول رد فعل للتحقق من أصالة مجوهرات الذهب هو النظر إذا كانت تحمل ختماً. في المغرب، الختم الأكثر شيوعاً هو رأس النسر، الرمز المستخدم للتصديق على أن المجوهرات من ذهب 18K.</p>
+
+<h3>استخدام المغناطيس</h3>
+<p>الذهب معدن غير مغناطيسي. هذا يعني أن مجوهرات الذهب الحقيقية لا تتفاعل مع المغناطيس.</p>
+
+<h2>الاستعانة بمحترف</h2>
+<p>في مدننا المغربية، غالباً ما يمتلك صاغة الأحياء سنوات من الخبرة في العمل والتعرف على الذهب.</p>""",
+            "category_slug": "or-valeur",
+            "image": "https://www.18k.ma/blog/wp-content/uploads/2020/06/1-1.png",
+            "reading_time": 8
+        },
+        {
+            "title": "Pourquoi le 18k est le standard légal de l'or marocain ?",
+            "title_ar": "لماذا يعتبر 18 قيراط المعيار القانوني للذهب المغربي؟",
+            "slug": "pourquoi-le-18k-est-le-standard-legal-de-lor-marocain",
+            "excerpt": "Au Maroc, l'or 18 carats est le standard légal pour la bijouterie. Découvrez les raisons historiques, culturelles et pratiques de ce choix.",
+            "excerpt_ar": "في المغرب، يعتبر الذهب 18 قيراط المعيار القانوني لصناعة المجوهرات. اكتشف الأسباب التاريخية والثقافية والعملية لهذا الاختيار.",
+            "content": """<p>Au Maroc, l'or occupe une place centrale dans la culture, l'économie et les traditions sociales. Présent dans les mariages, les cérémonies familiales et l'épargne domestique, il est à la fois symbole de richesse et de sécurité.</p>
+
+<h2>Comprendre les carats de l'or</h2>
+<h3>Le carat : quésaco ?</h3>
+<p>Le carat est une unité de mesure qui indique la pureté de l'or contenu dans un alliage. L'or pur correspond à 24 carats, soit 100 % d'or.</p>
+
+<h2>Le cadre légal de l'or au Maroc</h2>
+<p>Au Maroc, la commercialisation et la fabrication des métaux précieux sont strictement encadrées par l'État afin de garantir la protection des consommateurs et la transparence du marché.</p>
+
+<h3>Pourquoi le 18 carats a été choisi comme norme légale ?</h3>
+<p>Le choix du 18 carats comme standard légal repose sur plusieurs facteurs : équilibre entre pureté et solidité, adapté à l'usage quotidien, et facilité de contrôle administratif.</p>
+
+<h2>Raisons historiques et culturelles</h2>
+<p>Au Maroc, l'or occupe une place essentielle dans les mariages et les grandes cérémonies familiales. Les bijoux en or symbolisent à la fois la prospérité, la sécurité financière et le statut social.</p>""",
+            "content_ar": """<p>في المغرب، يحتل الذهب مكانة مركزية في الثقافة والاقتصاد والتقاليد الاجتماعية. موجود في الأعراس والمناسبات العائلية والادخار المنزلي، فهو رمز للثروة والأمان في آن واحد.</p>
+
+<h2>فهم قراريط الذهب</h2>
+<h3>ما هو القيراط؟</h3>
+<p>القيراط هو وحدة قياس تشير إلى نقاء الذهب الموجود في السبيكة. الذهب الخالص يعادل 24 قيراطاً، أي 100% ذهب.</p>
+
+<h2>الإطار القانوني للذهب في المغرب</h2>
+<p>في المغرب، تسويق وصناعة المعادن الثمينة مؤطران بشكل صارم من قبل الدولة لضمان حماية المستهلكين وشفافية السوق.</p>
+
+<h3>لماذا اختير 18 قيراط كمعيار قانوني؟</h3>
+<p>اختيار 18 قيراط كمعيار قانوني يعتمد على عدة عوامل: التوازن بين النقاء والمتانة، الملاءمة للاستخدام اليومي، وسهولة الرقابة الإدارية.</p>
+
+<h2>أسباب تاريخية وثقافية</h2>
+<p>في المغرب، يحتل الذهب مكانة أساسية في الأعراس والمناسبات العائلية الكبرى. مجوهرات الذهب ترمز في آن واحد إلى الازدهار والأمان المالي والمكانة الاجتماعية.</p>""",
+            "category_slug": "or-valeur",
+            "image": "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800",
+            "reading_time": 9
+        },
+    ]
+
+    for idx, article_data in enumerate(articles_data):
+        category_slug = article_data.pop("category_slug")
+        category = categories.get(category_slug)
+        article = Article(
+            **article_data,
+            category_id=category.id if category else None,
+            status="published",
+            published_at=datetime.utcnow() - timedelta(days=len(articles_data) - idx)
+        )
+        db.add(article)
+
+    db.commit()
+    print(f"✓ Seeded {len(categories_data)} categories and {len(articles_data)} articles")
+
+
 # Initialize database on startup
 @app.on_event("startup")
 def startup_event():
@@ -208,46 +490,21 @@ def startup_event():
     # First, try to restore database from GCS
     print("🔄 Checking for existing database backup in Google Cloud Storage...")
     restore_db_from_gcs()
-    
+
     # Initialize database tables
     init_db()
     db = next(get_db())
     init_admin_password(db)
-    
-    # Auto-populate with sample data if database is empty
+
+    # Seed data if empty
+    seed_prices_data(db)
+    seed_blog_data(db)
+
+    # Check database status
     price_count = db.query(Price).count()
-    if price_count == 0:
-        print("Database is empty. Auto-populating with sample data...")
-        import random
-        from datetime import date as date_obj, timedelta as td
-        
-        base_price = 1250.0
-        today = date_obj.today()
-        
-        # Add 30 days of historical data
-        for i in range(30, 0, -1):
-            price_date = today - td(days=i)
-            variation = random.uniform(-0.02, 0.02)
-            trend = (30 - i) * 0.3
-            price_value = round(base_price * (1 + variation) + trend, 2)
-            
-            sample_price = Price(
-                date=price_date,
-                price_per_gram_mad=price_value
-            )
-            db.add(sample_price)
-        
-        # Add today's price
-        today_price = Price(
-            date=today,
-            price_per_gram_mad=1280.50
-        )
-        db.add(today_price)
-        db.commit()
-        print(f"✓ Auto-populated database with 31 sample prices")
-    else:
-        print(f"✓ Database already has {price_count} entries")
-    
+    article_count = db.query(Article).count()
+    print(f"✓ Database has {price_count} price entries and {article_count} articles")
+
     db.close()
 
 
@@ -457,8 +714,8 @@ def get_related_articles(slug: str, limit: int = 3, db: Session = Depends(get_db
 
 @app.get("/api/blog/categories", response_model=List[CategoryResponse])
 def get_categories(db: Session = Depends(get_db)):
-    """Get all categories"""
-    return db.query(Category).order_by(Category.name).all()
+    """Get all categories ordered by position"""
+    return db.query(Category).order_by(Category.position, Category.name).all()
 
 
 # --- Admin Blog Endpoints ---
@@ -556,17 +813,36 @@ def create_article(
     if article_data.status == "published" and not published_at:
         published_at = datetime.utcnow()
 
+    # Generate Arabic slug if title_ar provided
+    slug_ar = None
+    if article_data.title_ar:
+        slug_ar = slugify(article_data.title_ar)
+        base_slug_ar = slug_ar
+        counter_ar = 1
+        while db.query(Article).filter(Article.slug_ar == slug_ar).first():
+            slug_ar = f"{base_slug_ar}-{counter_ar}"
+            counter_ar += 1
+
     article = Article(
+        # French content
         title=article_data.title,
         slug=slug,
         excerpt=article_data.excerpt,
         content=article_data.content,
+        meta_title=article_data.meta_title,
+        meta_description=article_data.meta_description,
+        # Arabic content
+        title_ar=article_data.title_ar,
+        slug_ar=slug_ar,
+        excerpt_ar=article_data.excerpt_ar,
+        content_ar=article_data.content_ar,
+        meta_title_ar=article_data.meta_title_ar,
+        meta_description_ar=article_data.meta_description_ar,
+        # Common fields
         image=article_data.image,
         category_id=article_data.category_id,
         status=article_data.status,
         reading_time=article_data.reading_time,
-        meta_title=article_data.meta_title,
-        meta_description=article_data.meta_description,
         published_at=published_at
     )
 
@@ -608,6 +884,17 @@ def update_article(
                 new_slug = f"{base_slug}-{counter}"
                 counter += 1
             update_data["slug"] = new_slug
+
+    # Regenerate slug_ar if title_ar changed
+    if "title_ar" in update_data and update_data["title_ar"]:
+        new_slug_ar = slugify(update_data["title_ar"])
+        if new_slug_ar != article.slug_ar:
+            base_slug_ar = new_slug_ar
+            counter_ar = 1
+            while db.query(Article).filter(Article.slug_ar == new_slug_ar, Article.id != article_id).first():
+                new_slug_ar = f"{base_slug_ar}-{counter_ar}"
+                counter_ar += 1
+            update_data["slug_ar"] = new_slug_ar
 
     # Set published_at if changing to published
     if update_data.get("status") == "published" and not article.published_at:
@@ -664,8 +951,10 @@ def create_category(
 
     category = Category(
         name=category_data.name,
+        name_ar=category_data.name_ar,
         slug=slug,
-        color=category_data.color
+        color=category_data.color,
+        position=category_data.position
     )
 
     db.add(category)
@@ -690,6 +979,7 @@ def update_category(
         raise HTTPException(status_code=404, detail="Category not found")
 
     category.name = category_data.name
+    category.name_ar = category_data.name_ar
     category.slug = slugify(category_data.name)
     category.color = category_data.color
 

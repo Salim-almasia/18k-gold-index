@@ -1,20 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
 
 const Footer = () => {
+  const { t, isRTL, getLocalizedPath } = useLanguage();
+
   return (
-    <footer className="bg-[#002FA7] mt-auto relative overflow-hidden">
-      {/* Mosaic Pattern Overlay */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
+    <footer className={`bg-[#002FA7] mt-auto relative overflow-hidden ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Galaxy Network Pattern */}
+      <div className="absolute inset-0">
+        <svg className="w-full h-full opacity-[0.15]" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="galaxy-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+              {/* Dots */}
+              <circle cx="10" cy="10" r="1.5" fill="#ffffff"/>
+              <circle cx="50" cy="20" r="1" fill="#ffffff"/>
+              <circle cx="90" cy="15" r="1.5" fill="#ffffff"/>
+              <circle cx="30" cy="50" r="1" fill="#ffffff"/>
+              <circle cx="70" cy="45" r="1.5" fill="#ffffff"/>
+              <circle cx="20" cy="80" r="1" fill="#ffffff"/>
+              <circle cx="60" cy="75" r="1.5" fill="#ffffff"/>
+              <circle cx="85" cy="85" r="1" fill="#ffffff"/>
+              <circle cx="45" cy="90" r="1" fill="#ffffff"/>
+              {/* Connecting lines */}
+              <line x1="10" y1="10" x2="50" y2="20" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="50" y1="20" x2="90" y2="15" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="50" y1="20" x2="30" y2="50" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="30" y1="50" x2="70" y2="45" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="70" y1="45" x2="90" y2="15" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="30" y1="50" x2="20" y2="80" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="20" y1="80" x2="60" y2="75" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="60" y1="75" x2="70" y2="45" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="60" y1="75" x2="85" y2="85" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="20" y1="80" x2="45" y2="90" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+              <line x1="45" y1="90" x2="85" y2="85" stroke="#ffffff" strokeWidth="0.3" opacity="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#galaxy-pattern)"/>
+        </svg>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
         {/* Logo */}
         <div className="flex justify-center mb-6">
-          <Link to="/" className="flex items-center">
+          <Link to={getLocalizedPath('/')} className="flex items-center">
             <img
               src="/logo-18k.svg"
               alt="18k.ma"
@@ -27,7 +56,7 @@ const Footer = () => {
         <div className="flex justify-center items-center gap-6 mb-8">
           {/* Instagram */}
           <a
-            href="https://instagram.com/18k.ma"
+            href="https://instagram.com/18kofficiel/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white/80 hover:text-white transition-colors"
@@ -66,7 +95,7 @@ const Footer = () => {
 
           {/* YouTube */}
           <a
-            href="https://youtube.com/@18k.ma"
+            href="https://youtube.com/@18k_ma"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white/80 hover:text-white transition-colors"
@@ -79,7 +108,7 @@ const Footer = () => {
 
           {/* Pinterest */}
           <a
-            href="https://pinterest.com/18kma"
+            href="https://pinterest.com/18kofficiel/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white/80 hover:text-white transition-colors"
@@ -91,20 +120,47 @@ const Footer = () => {
           </a>
         </div>
 
+        {/* Legal Links */}
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-6">
+          <Link
+            to={getLocalizedPath('/politique-de-confidentialite')}
+            className="text-white/60 hover:text-white text-sm transition-colors"
+          >
+            {t('footer.privacy')}
+          </Link>
+          <Link
+            to={getLocalizedPath('/conditions-generales-utilisation')}
+            className="text-white/60 hover:text-white text-sm transition-colors"
+          >
+            {t('footer.cgu')}
+          </Link>
+          <Link
+            to={getLocalizedPath('/politique-de-cookies')}
+            className="text-white/60 hover:text-white text-sm transition-colors"
+          >
+            {t('footer.cookies')}
+          </Link>
+          <Link
+            to={getLocalizedPath('/faq')}
+            className="text-white/60 hover:text-white text-sm transition-colors"
+          >
+            FAQ
+          </Link>
+          <Link
+            to={getLocalizedPath('/clause-non-responsabilite')}
+            className="text-white/60 hover:text-white text-sm transition-colors"
+          >
+            {t('footer.disclaimer')}
+          </Link>
+        </div>
+
         {/* Divider */}
         <div className="border-t border-white/10 pt-6">
-          {/* Copyright & Admin Link */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+          {/* Copyright */}
+          <div className="text-center">
             <p className="text-white/50 text-sm">
-              © {new Date().getFullYear()} 18K.MA - Tous droits réservés
+              © {new Date().getFullYear()} 18K.MA - {t('footer.rights')}
             </p>
-            <span className="hidden sm:inline text-white/30">|</span>
-            <Link
-              to="/admin/login"
-              className="text-white/40 hover:text-white/70 text-sm transition-colors"
-            >
-              Administration
-            </Link>
           </div>
         </div>
       </div>

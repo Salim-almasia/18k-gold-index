@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
@@ -37,6 +37,24 @@ def get_db():
 def init_db():
     """Initialize database tables"""
     Base.metadata.create_all(bind=engine)
+    run_migrations()
+
+
+def run_migrations():
+    """Run database migrations for schema updates"""
+    with engine.connect() as conn:
+        # Check if position column exists in categories table
+        try:
+            result = conn.execute(text("PRAGMA table_info(categories)"))
+            columns = [row[1] for row in result.fetchall()]
+
+            if 'position' not in columns:
+                logger.info("Adding 'position' column to categories table...")
+                conn.execute(text("ALTER TABLE categories ADD COLUMN position INTEGER DEFAULT 0"))
+                conn.commit()
+                logger.info("✓ Migration completed: added 'position' column")
+        except Exception as e:
+            logger.warning(f"Migration check skipped: {e}")
 
 
 def restore_db_from_gcs():

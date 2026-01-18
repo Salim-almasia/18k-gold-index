@@ -1,0 +1,142 @@
+import React, { useEffect } from 'react';
+import DashboardLayout from '../layout/DashboardLayout';
+import PriceInfo from '../dashboard/PriceInfo';
+import EnhancedPriceChart from '../dashboard/EnhancedPriceChart';
+import EditorialBlock from '../dashboard/EditorialBlock';
+import WhyFollowGold from '../dashboard/WhyFollowGold';
+import { useLanguage } from '../../context/LanguageContext';
+
+const TIMEFRAMES = [
+  { key: '1d', label: '1j' },
+  { key: '5d', label: '5j' },
+  { key: '1m', label: '1m' },
+  { key: '3m', label: '3m' },
+  { key: '6m', label: '6m' },
+  { key: '1y', label: '1a' },
+];
+
+const PricePage = ({
+  currentPrice,
+  historyData,
+  loading,
+  error,
+  timeframe,
+  onTimeframeChange,
+  onRefresh,
+  showWhySection = false
+}) => {
+  const { t, isRTL } = useLanguage();
+
+  useEffect(() => {
+    document.title = isRTL
+      ? 'سعر الذهب في المغرب - السعر اليومي والاتجاهات'
+      : 'Prix de l\'Or au Maroc - Cours Quotidien et Tendances';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', isRTL
+        ? 'تابع سعر الذهب في المغرب يوميًا: السعر الحالي، تطور السوق، الاتجاهات ومعلومات مفيدة للمستثمرين والمهتمين.'
+        : 'Suivez le prix de l\'or au Maroc mis à jour chaque jour : cours actuel, évolution du marché, tendances et informations utiles pour investisseurs et passionnés.'
+      );
+    }
+  }, [isRTL]);
+
+  return (
+    <DashboardLayout>
+      {error ? (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white border border-gray-200 rounded-xl p-12 text-center">
+            <svg className="w-14 h-14 mx-auto mb-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <p className="text-red-500 text-base mb-4">{t('price.error')}</p>
+            <button
+              onClick={onRefresh}
+              className="px-5 py-2 bg-[#002FA7] text-white text-sm font-semibold rounded-lg hover:bg-[#001f7a] transition-colors"
+            >
+              {t('price.retry')}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            {/* Page Title */}
+            <div className={`text-center py-4 mb-6 ${isRTL ? 'font-arabic' : ''}`}>
+              <h1 className="font-title text-2xl lg:text-3xl font-bold text-[#3A3B3C]">
+                {t('price.pageTitle')}
+              </h1>
+              <p className="text-sm text-gray-400 mt-1 tracking-wide">
+                {t('price.subtitle')}
+              </p>
+            </div>
+
+            {/* Mobile: Filter at top */}
+            <div className="lg:hidden mb-4">
+              <div className={`flex justify-center gap-1.5 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                {TIMEFRAMES.map(({ key, label }) => (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => onTimeframeChange(key)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150 ${
+                      timeframe === key
+                        ? 'bg-[#002FA7] text-white shadow-sm'
+                        : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Main Layout: 1/3 + 2/3 */}
+            <div className={`grid grid-cols-1 lg:grid-cols-3 gap-5 ${isRTL ? 'lg:flex lg:flex-row-reverse' : ''}`}>
+              {/* Left: Signal Or (1/3) */}
+              <div className={`lg:col-span-1 ${isRTL ? 'lg:w-1/3' : ''}`}>
+                <PriceInfo
+                  currentPrice={currentPrice}
+                  historyData={historyData}
+                  loading={loading}
+                  selectedTimeframe={timeframe}
+                />
+              </div>
+
+              {/* Right: Chart (2/3) */}
+              <div className={`lg:col-span-2 ${isRTL ? 'lg:w-2/3' : ''}`}>
+                <EnhancedPriceChart
+                  historyData={historyData}
+                  loading={loading}
+                  timeframe={timeframe}
+                  onTimeframeChange={onTimeframeChange}
+                  onRefresh={onRefresh}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Separator */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
+            <div className="flex items-center gap-4">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D2A24C]"></span>
+                <span className="w-2 h-2 rounded-full bg-[#002FA7]"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D2A24C]"></span>
+              </div>
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+            </div>
+          </div>
+
+          {/* Editorial Block */}
+          <EditorialBlock />
+
+          {/* Why Follow Gold Section - Only on /prix-de-lor */}
+          {showWhySection && <WhyFollowGold />}
+        </>
+      )}
+    </DashboardLayout>
+  );
+};
+
+export default PricePage;
