@@ -13,6 +13,8 @@ const AdminDashboard = ({ token, onLogout }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [recentPrices, setRecentPrices] = useState([]);
+  const [subscribers, setSubscribers] = useState([]);
+  const [subscribersLoading, setSubscribersLoading] = useState(false);
   const navigate = useNavigate();
 
   const fetchRecentPrices = useCallback(async () => {
@@ -26,6 +28,32 @@ const AdminDashboard = ({ token, onLogout }) => {
     }
   }, [token]);
 
+  const fetchSubscribers = useCallback(async () => {
+    setSubscribersLoading(true);
+    try {
+      const { data } = await axios.get(`${API_URL}/api/admin/newsletter/subscribers`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      setSubscribers(data.subscribers || []);
+    } catch (err) {
+      console.error('Error fetching subscribers:', err);
+    } finally {
+      setSubscribersLoading(false);
+    }
+  }, [token]);
+
+  const deleteSubscriber = async (id) => {
+    if (!window.confirm('Supprimer cet abonné ?')) return;
+    try {
+      await axios.delete(`${API_URL}/api/admin/newsletter/subscribers/${id}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      setSubscribers(subscribers.filter(s => s.id !== id));
+    } catch (err) {
+      console.error('Error deleting subscriber:', err);
+    }
+  };
+
   useEffect(() => {
     if (!token) {
       navigate('/admin/login');
@@ -33,6 +61,12 @@ const AdminDashboard = ({ token, onLogout }) => {
       fetchRecentPrices();
     }
   }, [token, navigate, fetchRecentPrices]);
+
+  useEffect(() => {
+    if (token && activeSection === 'newsletter') {
+      fetchSubscribers();
+    }
+  }, [token, activeSection, fetchSubscribers]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -129,13 +163,116 @@ const AdminDashboard = ({ token, onLogout }) => {
                 Blog
               </div>
             </button>
+            <button
+              onClick={() => setActiveSection('newsletter')}
+              className={`px-5 py-3 text-sm font-medium rounded-t-lg transition-all ${
+                activeSection === 'newsletter'
+                  ? 'bg-gray-50 text-[#002FA7]'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Newsletter
+              </div>
+            </button>
           </div>
         </div>
       </header>
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeSection === 'blog' ? (
+        {activeSection === 'newsletter' ? (
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
+                <svg className="w-5 h-5 text-[#002FA7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Abonnés Newsletter
+              </h2>
+              <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                {subscribers.length} abonné{subscribers.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+
+            {subscribersLoading ? (
+              <div className="p-12 text-center">
+                <svg className="w-8 h-8 animate-spin text-[#002FA7] mx-auto" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p className="mt-4 text-gray-500">Chargement...</p>
+              </div>
+            ) : subscribers.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="bg-gray-50">
+                      <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider py-3 px-6">
+                        Email
+                      </th>
+                      <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider py-3 px-6">
+                        Date d'inscription
+                      </th>
+                      <th className="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider py-3 px-6">
+                        Statut
+                      </th>
+                      <th className="text-right text-xs font-semibold text-gray-500 uppercase tracking-wider py-3 px-6">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {subscribers.map((subscriber) => (
+                      <tr key={subscriber.id} className="hover:bg-gray-50 transition-colors">
+                        <td className="py-4 px-6">
+                          <span className="text-sm font-medium text-gray-800">{subscriber.email}</span>
+                        </td>
+                        <td className="py-4 px-6">
+                          <span className="text-sm text-gray-600">
+                            {formatDate(subscriber.subscribed_at)}
+                          </span>
+                        </td>
+                        <td className="py-4 px-6">
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                            subscriber.is_active
+                              ? 'bg-emerald-100 text-emerald-700'
+                              : 'bg-gray-100 text-gray-600'
+                          }`}>
+                            {subscriber.is_active ? 'Actif' : 'Inactif'}
+                          </span>
+                        </td>
+                        <td className="py-4 px-6 text-right">
+                          <button
+                            onClick={() => deleteSubscriber(subscriber.id)}
+                            className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition-colors"
+                            title="Supprimer"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="p-12 text-center">
+                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <p className="text-gray-500">Aucun abonné pour le moment</p>
+              </div>
+            )}
+          </div>
+        ) : activeSection === 'blog' ? (
           <BlogAdmin token={token} />
         ) : (
           <>

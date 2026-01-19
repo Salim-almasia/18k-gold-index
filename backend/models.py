@@ -74,3 +74,13 @@ class Article(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     category = relationship("Category", back_populates="articles")
+
+
+class NewsletterSubscriber(Base):
+    """Model for newsletter subscribers"""
+    __tablename__ = "newsletter_subscribers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    subscribed_at = Column(DateTime, default=datetime.utcnow)
+    is_active = Column(Boolean, default=True)

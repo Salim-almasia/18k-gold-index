@@ -11,7 +11,7 @@ import uuid
 import re
 
 from database import get_db, init_db, restore_db_from_gcs, backup_db_to_gcs
-from models import Price, Admin, Category, Article
+from models import Price, Admin, Category, Article, NewsletterSubscriber
 from auth import (
     verify_password,
     create_access_token,
@@ -212,6 +212,24 @@ class BlogStatsResponse(BaseModel):
     draft_articles: int
     total_views: int
     total_categories: int
+
+
+# Newsletter schemas
+class NewsletterSubscribeRequest(BaseModel):
+    email: str
+
+class NewsletterSubscriberResponse(BaseModel):
+    id: int
+    email: str
+    subscribed_at: datetime
+    is_active: bool
+
+    class Config:
+        from_attributes = True
+
+class NewsletterListResponse(BaseModel):
+    subscribers: List[NewsletterSubscriberResponse]
+    total: int
 
 
 def slugify(text: str) -> str:
@@ -714,6 +732,70 @@ def seed_blog_data(db: Session):
 
     db.commit()
     print(f"✓ Seeded {len(categories_data)} categories and {len(articles_data)} articles")
+
+
+# Newsletter endpoints
+@app.post("/api/newsletter/subscribe")
+def subscribe_newsletter(request: NewsletterSubscribeRequest, db: Session = Depends(get_db)):
+    """Subscribe to newsletter - Public endpoint"""
+    email = request.email.strip().lower()
+
+    # Validate email format
+    if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', email):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Format d'email invalide"
+        )
+
+    # Check if already subscribed
+    existing = db.query(NewsletterSubscriber).filter(NewsletterSubscriber.email == email).first()
+    if existing:
+        if existing.is_active:
+            return {"message": "Vous êtes déjà inscrit à notre newsletter"}
+        else:
+            # Reactivate subscription
+            existing.is_active = True
+            db.commit()
+            return {"message": "Votre inscription a été réactivée"}
+
+    # Create new subscriber
+    subscriber = NewsletterSubscriber(email=email)
+    db.add(subscriber)
+    db.commit()
+
+    return {"message": "Merci pour votre inscription à notre newsletter"}
+
+
+@app.get("/api/admin/newsletter/subscribers", response_model=NewsletterListResponse)
+def get_newsletter_subscribers(
+    token: str = Depends(verify_token),
+    db: Session = Depends(get_db)
+):
+    """Get all newsletter subscribers - Admin only"""
+    subscribers = db.query(NewsletterSubscriber).order_by(desc(NewsletterSubscriber.subscribed_at)).all()
+    return NewsletterListResponse(
+        subscribers=subscribers,
+        total=len(subscribers)
+    )
+
+
+@app.delete("/api/admin/newsletter/subscribers/{subscriber_id}")
+def delete_newsletter_subscriber(
+    subscriber_id: int,
+    token: str = Depends(verify_token),
+    db: Session = Depends(get_db)
+):
+    """Delete a newsletter subscriber - Admin only"""
+    subscriber = db.query(NewsletterSubscriber).filter(NewsletterSubscriber.id == subscriber_id).first()
+    if not subscriber:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Subscriber not found"
+        )
+
+    db.delete(subscriber)
+    db.commit()
+    return {"message": "Subscriber deleted"}
 
 
 # Initialize database on startup

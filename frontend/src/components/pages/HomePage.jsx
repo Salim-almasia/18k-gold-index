@@ -2,19 +2,42 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from '../layout/DashboardLayout';
 import { useLanguage } from '../../context/LanguageContext';
+import API_URL from '../../config';
 
 const HomePage = () => {
   const { t, isRTL, getLocalizedPath } = useLanguage();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const [newsletterError, setNewsletterError] = useState('');
 
-  const handleNewsletterSubmit = (e) => {
+  const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
-    if (newsletterEmail.trim()) {
-      // For now, just show success message
-      // In the future, this could send to a backend API
+    if (!newsletterEmail.trim()) return;
+
+    setNewsletterLoading(true);
+    setNewsletterError('');
+
+    try {
+      const response = await fetch(`${API_URL}/api/newsletter/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: newsletterEmail.trim() }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.detail || 'Erreur lors de l\'inscription');
+      }
+
       setNewsletterSubmitted(true);
       setNewsletterEmail('');
+    } catch (error) {
+      setNewsletterError(error.message);
+    } finally {
+      setNewsletterLoading(false);
     }
   };
 
@@ -98,8 +121,8 @@ const HomePage = () => {
                 {/* Main Image */}
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <img
-                    src="https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=2070&auto=format&fit=crop"
-                    alt={isRTL ? "سبائك الذهب" : "Lingots d'or"}
+                    src="/cours-or-maroc-prix-or-aujourdhui.webp"
+                    alt="Cours de l'or au Maroc aujourd'hui, prix de l'or en dirham marocain"
                     className="w-full h-[320px] lg:h-[400px] object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-tr from-[#002FA7]/20 via-transparent to-[#D2A24C]/10"></div>
@@ -167,8 +190,8 @@ const HomePage = () => {
             <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
               <div className="relative h-48">
                 <img
-                  src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop"
-                  alt={isRTL ? "مجوهرات ذهب 18 قيراط" : "Bijoux en or 18 carats"}
+                  src="/or-18-carats-maroc-750.webp"
+                  alt="Or 18 carats au Maroc, pureté 750 et valeur réelle"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
@@ -216,9 +239,7 @@ const HomePage = () => {
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#002FA7] flex items-center justify-center">
-                    <span className="text-lg font-bold text-white">18K</span>
-                  </div>
+                  <img src="/icon-18k.png" alt="18k" className="w-12 h-12 rounded-xl" />
                   <div>
                     <h3 className="text-xl font-bold text-[#002FA7]">{t('home.vision.title')}</h3>
                     <p className="text-xs text-gray-500">{t('home.vision.subtitle')}</p>
@@ -277,8 +298,8 @@ const HomePage = () => {
           {/* Or & valeur - Wide Rectangular Card */}
           <Link to={getLocalizedPath('/blog/or-valeur')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[320px] block mb-6">
             <img
-              src="https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=2070&auto=format&fit=crop"
-              alt={t('categories.orValeur.title')}
+              src="/valeur-or-maroc-prix-purete.webp"
+              alt="Valeur de l'or au Maroc, prix, pureté et perception de la valeur"
               className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
             />
             <div className={`absolute inset-0 ${isRTL ? 'bg-gradient-to-l' : 'bg-gradient-to-r'} from-[#1A1A1A] via-[#1A1A1A]/70 to-transparent`}></div>
@@ -306,8 +327,8 @@ const HomePage = () => {
             {/* Bijouterie & horlogerie */}
             <Link to={getLocalizedPath('/blog/bijouterie-horlogerie')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[300px] block">
               <img
-                src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2070&auto=format&fit=crop"
-                alt={t('categories.bijouterieHorlogerie.title')}
+                src="/bijouterie-horlogerie-maroc-guide.webp"
+                alt="Bijouterie et horlogerie au Maroc, bijoux et montres expliqués"
                 className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
@@ -328,8 +349,8 @@ const HomePage = () => {
             {/* Diamant & pierres */}
             <Link to={getLocalizedPath('/blog/diamant-pierres')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[300px] block">
               <img
-                src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop"
-                alt={t('categories.diamantPierres.title')}
+                src="/diamants-pierres-precieuses-maroc.webp"
+                alt="Diamants et pierres précieuses au Maroc, bagues et bracelets"
                 className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
@@ -350,8 +371,8 @@ const HomePage = () => {
             {/* Métier & savoir-faire */}
             <Link to={getLocalizedPath('/blog/metier-savoir-faire')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[300px] block">
               <img
-                src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=2070&auto=format&fit=crop"
-                alt={t('categories.metierSavoirFaire.title')}
+                src="/artisan-bijoutier-maroc-savoir-faire.webp"
+                alt="Métier de bijoutier au Maroc, savoir-faire et artisanat traditionnel"
                 className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
@@ -372,8 +393,8 @@ const HomePage = () => {
             {/* Croyances & idées reçues */}
             <Link to={getLocalizedPath('/blog/croyances-idees-recues')} className="group relative rounded-xl overflow-hidden h-[280px] lg:h-[300px] block">
               <img
-                src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?q=80&w=2070&auto=format&fit=crop"
-                alt={t('categories.croyancesIdees.title')}
+                src="/croyances-bijoux-or-maroc.webp"
+                alt="Idées reçues sur l'or et les bijoux au Maroc, mythes et réalités"
                 className="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A] via-[#1A1A1A]/50 to-transparent"></div>
@@ -449,31 +470,50 @@ const HomePage = () => {
             {/* Form */}
             <div className="bg-gray-50 rounded-2xl p-8 lg:p-10 border border-gray-100">
               {!newsletterSubmitted ? (
-                <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4">
-                  <div className="flex-1 relative">
-                    <div className="absolute inset-y-0 start-4 flex items-center pointer-events-none">
-                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
-                      </svg>
+                <form onSubmit={handleNewsletterSubmit} className="flex flex-col gap-4">
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1 relative">
+                      <div className="absolute inset-y-0 start-4 flex items-center pointer-events-none">
+                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                        </svg>
+                      </div>
+                      <input
+                        type="email"
+                        value={newsletterEmail}
+                        onChange={(e) => setNewsletterEmail(e.target.value)}
+                        placeholder={t('home.newsletter.placeholder')}
+                        required
+                        disabled={newsletterLoading}
+                        className="w-full ps-12 pe-4 py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#002FA7] focus:ring-2 focus:ring-[#002FA7]/10 transition-all disabled:opacity-50"
+                      />
                     </div>
-                    <input
-                      type="email"
-                      value={newsletterEmail}
-                      onChange={(e) => setNewsletterEmail(e.target.value)}
-                      placeholder={t('home.newsletter.placeholder')}
-                      required
-                      className="w-full ps-12 pe-4 py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#002FA7] focus:ring-2 focus:ring-[#002FA7]/10 transition-all"
-                    />
+                    <button
+                      type="submit"
+                      disabled={newsletterLoading}
+                      className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#002FA7] text-white font-semibold rounded-xl hover:bg-[#001f7a] transition-all shadow-lg shadow-[#002FA7]/20 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {newsletterLoading ? (
+                        <>
+                          <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          {isRTL ? 'جاري التسجيل...' : 'Envoi...'}
+                        </>
+                      ) : (
+                        <>
+                          {t('home.newsletter.button')}
+                          <svg className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </>
+                      )}
+                    </button>
                   </div>
-                  <button
-                    type="submit"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#002FA7] text-white font-semibold rounded-xl hover:bg-[#001f7a] transition-all shadow-lg shadow-[#002FA7]/20 whitespace-nowrap"
-                  >
-                    {t('home.newsletter.button')}
-                    <svg className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </button>
+                  {newsletterError && (
+                    <p className="text-red-500 text-sm text-center">{newsletterError}</p>
+                  )}
                 </form>
               ) : (
                 <div className="text-center py-4">
