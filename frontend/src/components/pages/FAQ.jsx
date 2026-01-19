@@ -15,7 +15,7 @@ const FAQ = () => {
     if (metaDescription) {
       metaDescription.setAttribute('content', isRTL
         ? 'اعثر على إجابات لأسئلتك حول سعر الذهب في المغرب، ذهب 18 قيراط، شراء وبيع الذهب، والمزيد.'
-        : 'Trouvez les réponses à vos questions sur le prix de l\'or au Maroc, l\'or 18 carats, l\'achat et la vente d\'or, et bien plus encore.'
+        : 'Trouvez les réponses à vos questions sur le prix de l\'or au Maroc, l\'or 18 karats, l\'achat et la vente d\'or, et bien plus encore.'
       );
     }
   }, [isRTL]);

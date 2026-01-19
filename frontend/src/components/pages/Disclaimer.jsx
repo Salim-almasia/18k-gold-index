@@ -150,7 +150,7 @@ const Disclaimer = () => {
               <ul className={`list-disc ${isRTL ? 'list-inside text-right' : 'list-inside'} text-gray-600 space-y-2 ${isRTL ? 'mr-4' : 'ml-4'}`}>
                 <li>{isRTL ? 'استشارة عدة محلات مجوهرات لمقارنة الأسعار' : 'Consulter plusieurs bijoutiers pour comparer les prix'}</li>
                 <li>{isRTL ? 'التحقق من الدمغة الرسمية ومطابقة المجوهرات' : 'Vérifier le poinçon officiel et la conformité du bijou'}</li>
-                <li>{isRTL ? 'طلب فاتورة مفصلة تذكر الوزن والقيراط' : 'Demander une facture détaillée mentionnant le poids et le carat'}</li>
+                <li>{isRTL ? 'طلب فاتورة مفصلة تذكر الوزن والقيراط' : 'Demander une facture détaillée mentionnant le poids et le karat'}</li>
                 <li>{isRTL ? 'استشارة خبير في حالة الشك حول الأصالة' : 'Faire appel à un expert en cas de doute sur l\'authenticité'}</li>
                 <li>{isRTL ? 'استشارة مستشار مالي لأي استثمار كبير' : 'Consulter un conseiller financier pour tout investissement significatif'}</li>
               </ul>

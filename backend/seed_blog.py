@@ -62,33 +62,33 @@ def seed_blog():
                 "published_at": datetime(2026, 1, 15),
                 "content": """<p>L'or fascine autant par sa beauté que par sa valeur. Pourtant, beaucoup de personnes se demandent comment est réellement calculé le prix d'un bijou en or. Pourquoi deux bagues au design similaire peuvent-elles coûter des montants différents ? Cette question revient souvent, aussi bien chez les acheteurs que chez les passionnés de bijoux. Au Maroc, le marché de l'or suit ses propres habitudes et particularités, ce qui peut parfois prêter à confusion.</p>
 
-<h2>Les bases : comprendre l'or et ses carats</h2>
+<h2>Les bases : comprendre l'or et ses karats</h2>
 
-<h3>Qu'est-ce que le carat ?</h3>
+<h3>Qu'est-ce que le karat ?</h3>
 
-<p>Le carat est l'unité qui permet de mesurer la pureté de l'or utilisé dans un bijou. L'or pur correspond à 24 carats. Comme il est très malléable et fragile, on le mélange à d'autres métaux (argent, cuivre, palladium, etc.) afin d'obtenir un alliage plus solide et plus adapté à la fabrication de bijoux.</p>
+<p>Le karat est l'unité qui permet de mesurer la pureté de l'or utilisé dans un bijou. L'or pur correspond à 24 karats. Comme il est très malléable et fragile, on le mélange à d'autres métaux (argent, cuivre, palladium, etc.) afin d'obtenir un alliage plus solide et plus adapté à la fabrication de bijoux.</p>
 
-<p>Ainsi, plus le nombre de carats est élevé, plus la proportion d'or pur dans l'alliage est importante.</p>
+<p>Ainsi, plus le nombre de karats est élevé, plus la proportion d'or pur dans l'alliage est importante.</p>
 
 <p>À titre indicatif :</p>
 <ul>
-<li>24 carats = or pur</li>
-<li>22 carats = 91,6 % d'or</li>
-<li>21 carats = 87,5 % d'or</li>
-<li>18 carats = 75 % d'or</li>
-<li>14 carats = 58,5 % d'or</li>
-<li>9 carats = 37,5 % d'or</li>
+<li>24 karats = or pur</li>
+<li>22 karats = 91,6 % d'or</li>
+<li>21 karats = 87,5 % d'or</li>
+<li>18 karats = 75 % d'or</li>
+<li>14 karats = 58,5 % d'or</li>
+<li>9 karats = 37,5 % d'or</li>
 </ul>
 
-<p>Le choix du carat influence donc à la fois la valeur, la résistance et la couleur du bijou.</p>
+<p>Le choix du karat influence donc à la fois la valeur, la résistance et la couleur du bijou.</p>
 
-<h2>Quels carats utilise-t-on le plus au Maroc ?</h2>
+<h2>Quels karats utilise-t-on le plus au Maroc ?</h2>
 
-<p>Au Maroc, l'or 18 carats (750/1000) est la référence officielle et la plus utilisée dans le commerce réglementé. C'est ce que l'on retrouve dans la grande majorité des bijouteries, car il offre un bon équilibre entre pureté, solidité et valeur.</p>
+<p>Au Maroc, l'or 18 karats (750/1000) est la référence officielle et la plus utilisée dans le commerce réglementé. C'est ce que l'on retrouve dans la grande majorité des bijouteries, car il offre un bon équilibre entre pureté, solidité et valeur.</p>
 
-<p>Il peut exister, dans certains cas, des bijoux en 21 ou 22 carats, mais ceux-ci circulent plutôt dans des réseaux privés ou informels, et ne correspondent pas au standard habituel du marché marocain organisé.</p>
+<p>Il peut exister, dans certains cas, des bijoux en 21 ou 22 karats, mais ceux-ci circulent plutôt dans des réseaux privés ou informels, et ne correspondent pas au standard habituel du marché marocain organisé.</p>
 
-<p>Pour le consommateur, il est donc important de vérifier le poinçon indiquant le carat du bijou afin de s'assurer de sa conformité et de sa valeur réelle.</p>
+<p>Pour le consommateur, il est donc important de vérifier le poinçon indiquant le karat du bijou afin de s'assurer de sa conformité et de sa valeur réelle.</p>
 
 <h2>Le premier facteur : le cours de l'or</h2>
 
@@ -96,7 +96,7 @@ def seed_blog():
 
 <p>Le prix de l'or n'est pas décidé par les bijoutiers; il est déterminé sur les marchés internationaux. Ce cours officiel évolue en continu et peut varier d'un jour à l'autre. Le prix est fixé d'abord en dollars par once (unité de mesure internationale), puis converti en dirhams selon le taux de change du moment.</p>
 
-<p>Une fois cette valeur obtenue, elle est ramenée au gramme d'or pur (24 carats). C'est sur cette base que l'on calcule ensuite le prix de l'or 18 carats, qui correspond à 75 % d'or pur. Ainsi, toute variation du cours mondial se répercute automatiquement sur le prix du bijou.</p>
+<p>Une fois cette valeur obtenue, elle est ramenée au gramme d'or pur (24 karats). C'est sur cette base que l'on calcule ensuite le prix de l'or 18 karats, qui correspond à 75 % d'or pur. Ainsi, toute variation du cours mondial se répercute automatiquement sur le prix du bijou.</p>
 
 <h3>Pourquoi le prix change-t-il ?</h3>
 
@@ -120,9 +120,9 @@ def seed_blog():
 
 <p>Pour comprendre facilement, on peut résumer le calcul de la valeur de l'or dans un bijou ainsi :</p>
 
-<p><strong>"Prix du gramme d'or pur × pourcentage d'or selon le carat × poids du bijou"</strong></p>
+<p><strong>"Prix du gramme d'or pur × pourcentage d'or selon le karat × poids du bijou"</strong></p>
 
-<p>Par exemple, pour un bijou en or 18 carats (qui contient 75 % d'or pur), on applique ce taux au prix du gramme d'or pur, puis on multiplie par le poids total du bijou.</p>
+<p>Par exemple, pour un bijou en or 18 karats (qui contient 75 % d'or pur), on applique ce taux au prix du gramme d'or pur, puis on multiplie par le poids total du bijou.</p>
 
 <p>Ce résultat donne la valeur de la matière en or. À cette valeur viendront ensuite s'ajouter la main-d'œuvre, le design, la marge du bijoutier et les éventuels frais réglementaires, ce qui permettra d'obtenir le prix final affiché en boutique.</p>
 
@@ -140,7 +140,7 @@ def seed_blog():
 <li>le sertissage éventuel des pierres</li>
 </ul>
 
-<p>Plus le bijou est complexe et travaillé, plus ces étapes sont longues et techniques. C'est pourquoi deux bijoux de même poids et de même carat peuvent afficher des prix différents.</p>
+<p>Plus le bijou est complexe et travaillé, plus ces étapes sont longues et techniques. C'est pourquoi deux bijoux de même poids et de même karat peuvent afficher des prix différents.</p>
 
 <h3>Bijou artisanal vs bijou industriel</h3>
 
@@ -199,9 +199,9 @@ def seed_blog():
 <p>Pour un client, il n'est pas toujours facile de savoir si le prix proposé est cohérent. Quelques réflexes simples peuvent aider à y voir plus clair :</p>
 <ul>
 <li><strong>Demander le poids du bijou</strong> : le poids est une donnée de base. Un bijoutier sérieux accepte en général de le communiquer.</li>
-<li><strong>Demander le carat</strong> : il est essentiel de savoir en quel carat est le bijou (18 carats au Maroc pour la vente réglementée).</li>
+<li><strong>Demander le karat</strong> : il est essentiel de savoir en quel karat est le bijou (18 karats au Maroc pour la vente réglementée).</li>
 <li><strong>Vérifier le poinçon</strong> : le bijou doit porter un poinçon officiel indiquant le titre de l'or. Ce marquage est une garantie de conformité.</li>
-<li><strong>Demander la facture</strong> : une facture détaillée, mentionnant au minimum la nature du bijou, le carat et le poids, est un élément de traçabilité important.</li>
+<li><strong>Demander la facture</strong> : une facture détaillée, mentionnant au minimum la nature du bijou, le karat et le poids, est un élément de traçabilité important.</li>
 </ul>
 
 <p>Ces informations permettent de comparer plus facilement les prix entre plusieurs professionnels.</p>
@@ -210,10 +210,10 @@ def seed_blog():
 
 <p>Pour limiter les risques de payer un bijou trop cher, ou de mauvaise qualité, quelques précautions supplémentaires sont utiles :</p>
 <ul>
-<li><strong>Comparer plusieurs bijoutiers</strong> : ne pas hésiter à visiter plusieurs boutiques pour comparer les prix pour un type de bijou similaire (même carat, poids proche, style comparable).</li>
+<li><strong>Comparer plusieurs bijoutiers</strong> : ne pas hésiter à visiter plusieurs boutiques pour comparer les prix pour un type de bijou similaire (même karat, poids proche, style comparable).</li>
 <li><strong>Se renseigner sur le cours du jour</strong> : avoir une idée du prix du gramme d'or sur le marché, même approximative, aide à comprendre les écarts de prix.</li>
 <li><strong>Privilégier les professionnels reconnus</strong> : choisir des bijouteries installées, recommandées et transparentes sur leurs pratiques.</li>
-<li><strong>Poser des questions</strong> : un bon bijoutier prend le temps d'expliquer son prix, le carat, le poinçon, l'origine du bijou et les conditions de garantie.</li>
+<li><strong>Poser des questions</strong> : un bon bijoutier prend le temps d'expliquer son prix, le karat, le poinçon, l'origine du bijou et les conditions de garantie.</li>
 </ul>
 
 <p>En combinant ces réflexes, le consommateur peut mieux évaluer si le prix proposé correspond réellement à la valeur du bijou, à la qualité de l'or et au travail artisanal qu'il représente.</p>
@@ -227,12 +227,12 @@ def seed_blog():
             {
                 "title": "Comment comparer deux bagues en or au même prix ?",
                 "slug": "comment-comparer-deux-bagues-en-or-au-meme-prix",
-                "excerpt": "Deux bagues en or 18 carats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur. Découvrez les critères essentiels pour faire un choix éclairé.",
+                "excerpt": "Deux bagues en or 18 karats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur. Découvrez les critères essentiels pour faire un choix éclairé.",
                 "image": "https://www.18k.ma/blog/wp-content/uploads/2020/06/3-1.png",
                 "category": "Bijoux",
                 "reading_time": 8,
                 "published_at": datetime(2026, 1, 11),
-                "content": """<p>Deux bagues en or 18 carats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur. En bijouterie, plusieurs facteurs entrent en jeu : le poids du métal, le type de fabrication, la complexité du design, ou encore la présence de pierres. Savoir analyser ces éléments permet d'éviter un achat impulsif et de mieux comprendre ce que l'on paie réellement.</p>
+                "content": """<p>Deux bagues en or 18 karats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur. En bijouterie, plusieurs facteurs entrent en jeu : le poids du métal, le type de fabrication, la complexité du design, ou encore la présence de pierres. Savoir analyser ces éléments permet d'éviter un achat impulsif et de mieux comprendre ce que l'on paie réellement.</p>
 
 <h2>Poids et structure de la bague</h2>
 
@@ -271,7 +271,7 @@ def seed_blog():
 
 <h3>L'or utilisé : attention aux comparaisons hors norme</h3>
 
-<p>Au Maroc, seule la vente de bijoux en or 18 carats (750 millièmes) est autorisée par la loi. Tous les bijoutiers certifiés respectent cette exigence et portent un poinçon de garantie. Cela signifie que le niveau de pureté est identique entre bagues légalement commercialisées.</p>
+<p>Au Maroc, seule la vente de bijoux en or 18 karats (750 millièmes) est autorisée par la loi. Tous les bijoutiers certifiés respectent cette exigence et portent un poinçon de garantie. Cela signifie que le niveau de pureté est identique entre bagues légalement commercialisées.</p>
 
 <h2>Valeur de revente et transmission</h2>
 
@@ -311,16 +311,16 @@ def seed_blog():
 
 <p>L'or fait partie des métaux précieux les plus appréciés au monde, surtout lorsqu'il s'agit de bijoux. Mais attention! Tous les bijoux en or ne se valent pas. Pour savoir si une pièce est vraiment authentique, il faut tenir compte de plusieurs éléments, comme la pureté du métal et sa teinte, souvent influencée par les métaux avec lesquels il est mélangé.</p>
 
-<h3>La pureté de l'or : carats et alliages</h3>
+<h3>La pureté de l'or : karats et alliages</h3>
 
-<p>L'unité de mesure la plus utilisée pour évaluer la pureté de l'or est le carat (K). L'or pur, c'est-à-dire sans aucun autre métal ajouté, est désigné comme 24 carats, soit 99,9 % d'or. Cependant, l'or pur est naturellement très malléable et donc peu adapté à la fabrication de bijoux portés au quotidien.</p>
+<p>L'unité de mesure la plus utilisée pour évaluer la pureté de l'or est le karat (K). L'or pur, c'est-à-dire sans aucun autre métal ajouté, est désigné comme 24 karats, soit 99,9 % d'or. Cependant, l'or pur est naturellement très malléable et donc peu adapté à la fabrication de bijoux portés au quotidien.</p>
 
-<p>Pour renforcer sa solidité, l'or est souvent allié à d'autres métaux comme l'argent, le cuivre, le zinc ou encore le nickel. Ces alliages donnent naissance à des or de différents carats :</p>
+<p>Pour renforcer sa solidité, l'or est souvent allié à d'autres métaux comme l'argent, le cuivre, le zinc ou encore le nickel. Ces alliages donnent naissance à des or de différents karats :</p>
 
 <ul>
-<li><strong>18 carats (750/1000)</strong> : 75 % d'or pur, le plus courant en joaillerie haut de gamme au Maroc.</li>
-<li><strong>14 carats (585/1000)</strong> : 58,5 % d'or, plus répandu dans certains pays comme les États-Unis.</li>
-<li><strong>9 carats (375/1000)</strong> : 37,5 % d'or, plus abordable, mais moins précieux.</li>
+<li><strong>18 karats (750/1000)</strong> : 75 % d'or pur, le plus courant en joaillerie haut de gamme au Maroc.</li>
+<li><strong>14 karats (585/1000)</strong> : 58,5 % d'or, plus répandu dans certains pays comme les États-Unis.</li>
+<li><strong>9 karats (375/1000)</strong> : 37,5 % d'or, plus abordable, mais moins précieux.</li>
 </ul>
 
 <h3>Les couleurs de l'or</h3>
@@ -339,7 +339,7 @@ def seed_blog():
 
 <p>L'un des premiers réflexes pour vérifier l'authenticité d'un bijou en or, c'est de regarder s'il porte un poinçon. Ce petit symbole gravé dans le métal indique le titre de l'or (c'est-à-dire sa pureté) et garantit que le bijou a été contrôlé.</p>
 
-<p>Au Maroc, la législation reconnaît officiellement l'or 18 carats (750/1000) comme référence. Le poinçon le plus courant est la tête d'aigle, symbole utilisé pour certifier que le bijou est bien en or 18K.</p>
+<p>Au Maroc, la législation reconnaît officiellement l'or 18 karats (750/1000) comme référence. Le poinçon le plus courant est la tête d'aigle, symbole utilisé pour certifier que le bijou est bien en or 18K.</p>
 
 <h3>Utiliser un aimant</h3>
 
@@ -391,22 +391,22 @@ def seed_blog():
             {
                 "title": "Pourquoi le 18k est le standard légal de l'or marocain ?",
                 "slug": "pourquoi-18k-standard-legal-or-marocain",
-                "excerpt": "Au Maroc, l'or occupe une place centrale dans la culture et les traditions. Découvrez pourquoi le 18 carats est devenu le standard légal pour la bijouterie marocaine.",
+                "excerpt": "Au Maroc, l'or occupe une place centrale dans la culture et les traditions. Découvrez pourquoi le 18 karats est devenu le standard légal pour la bijouterie marocaine.",
                 "image": "https://www.18k.ma/blog/wp-content/uploads/2020/06/2-1.png",
                 "category": "Or",
                 "reading_time": 7,
                 "published_at": datetime(2025, 12, 25),
-                "content": """<p>Au Maroc, l'or occupe une place centrale dans la culture, l'économie et les traditions sociales. Présent dans les mariages, les cérémonies familiales et l'épargne domestique, il est à la fois symbole de richesse et de sécurité. Contrairement à d'autres pays où l'or 22 ou 24 carats domine, le Maroc a fait du 18 carats le standard légal pour la bijouterie.</p>
+                "content": """<p>Au Maroc, l'or occupe une place centrale dans la culture, l'économie et les traditions sociales. Présent dans les mariages, les cérémonies familiales et l'épargne domestique, il est à la fois symbole de richesse et de sécurité. Contrairement à d'autres pays où l'or 22 ou 24 karats domine, le Maroc a fait du 18 karats le standard légal pour la bijouterie.</p>
 
-<h2>Comprendre les carats de l'or</h2>
+<h2>Comprendre les karats de l'or</h2>
 
-<h3>Le carat : quésaco ?</h3>
+<h3>Le karat : quésaco ?</h3>
 
-<p>Le carat est une unité de mesure qui indique la pureté de l'or contenu dans un alliage. L'or pur correspond à 24 carats, soit 100 % d'or. Plus le nombre de carats est élevé, plus la proportion d'or fin est importante.</p>
+<p>Le karat est une unité de mesure qui indique la pureté de l'or contenu dans un alliage. L'or pur correspond à 24 karats, soit 100 % d'or. Plus le nombre de karats est élevé, plus la proportion d'or fin est importante.</p>
 
-<h3>Composition de l'or 18 carats</h3>
+<h3>Composition de l'or 18 karats</h3>
 
-<p>L'or 18 carats est composé de 75 % d'or pur, les 25 % restants étant constitués de métaux d'alliage. Les métaux d'alliage les plus couramment utilisés sont le cuivre et l'argent. Cette composition offre un équilibre idéal entre pureté et résistance.</p>
+<p>L'or 18 karats est composé de 75 % d'or pur, les 25 % restants étant constitués de métaux d'alliage. Les métaux d'alliage les plus couramment utilisés sont le cuivre et l'argent. Cette composition offre un équilibre idéal entre pureté et résistance.</p>
 
 <h2>Le cadre légal de l'or au Maroc</h2>
 
@@ -414,9 +414,9 @@ def seed_blog():
 
 <p>Au Maroc, la commercialisation et la fabrication des métaux précieux sont strictement encadrées par l'État. Des textes de loi définissent les titres légaux de l'or autorisés, les conditions de fabrication des bijoux ainsi que les obligations des artisans et des commerçants.</p>
 
-<h3>Pourquoi le 18 carats a été choisi comme norme légale ?</h3>
+<h3>Pourquoi le 18 karats a été choisi comme norme légale ?</h3>
 
-<p>Le choix du 18 carats comme standard légal repose avant tout sur un équilibre entre pureté et solidité. Avec 75 % d'or pur, ce titre offre une valeur intrinsèque élevée tout en permettant l'ajout de métaux d'alliage qui renforcent la résistance du bijou.</p>
+<p>Le choix du 18 karats comme standard légal repose avant tout sur un équilibre entre pureté et solidité. Avec 75 % d'or pur, ce titre offre une valeur intrinsèque élevée tout en permettant l'ajout de métaux d'alliage qui renforcent la résistance du bijou.</p>
 
 <h2>Raisons historiques et culturelles</h2>
 
@@ -426,31 +426,31 @@ def seed_blog():
 
 <h3>Héritage artisanal et savoir-faire local</h3>
 
-<p>La bijouterie marocaine repose sur un riche héritage artisanal, transmis au sein des corporations et des ateliers traditionnels. L'or 18 carats répond parfaitement au besoin d'un matériau plus résistant que l'or presque pur, permettant aux artisans de créer des pièces finement travaillées sans compromettre leur solidité.</p>
+<p>La bijouterie marocaine repose sur un riche héritage artisanal, transmis au sein des corporations et des ateliers traditionnels. L'or 18 karats répond parfaitement au besoin d'un matériau plus résistant que l'or presque pur, permettant aux artisans de créer des pièces finement travaillées sans compromettre leur solidité.</p>
 
 <h2>Comparaison avec d'autres pays</h2>
 
-<h3>Or 22 et 24 carats dans d'autres marchés</h3>
+<h3>Or 22 et 24 karats dans d'autres marchés</h3>
 
-<p>Dans plusieurs régions du monde, notamment en Inde et dans certains pays du Moyen-Orient, l'or 22 carats, voire 24 carats, est largement privilégié. Ces marchés valorisent avant tout la pureté maximale du métal, parfois au détriment de la résistance.</p>
+<p>Dans plusieurs régions du monde, notamment en Inde et dans certains pays du Moyen-Orient, l'or 22 karats, voire 24 karats, est largement privilégié. Ces marchés valorisent avant tout la pureté maximale du métal, parfois au détriment de la résistance.</p>
 
 <h3>Spécificité du modèle marocain</h3>
 
 <p>Le modèle marocain se distingue par un positionnement intermédiaire entre tradition et praticité. Le Maroc a privilégié un titre permettant un usage fréquent et durable, adapté aux habitudes de port quotidien des bijoux.</p>
 
-<h2>Que faire si l'on possède de l'or 22 ou 24 carats ?</h2>
+<h2>Que faire si l'on possède de l'or 22 ou 24 karats ?</h2>
 
 <h3>Détention personnelle</h3>
 
-<p>Au Maroc, un particulier peut posséder et porter de l'or 22 ou 24 carats sans enfreindre la loi. Ces bijoux peuvent provenir d'héritages, de voyages ou d'achats à l'étranger.</p>
+<p>Au Maroc, un particulier peut posséder et porter de l'or 22 ou 24 karats sans enfreindre la loi. Ces bijoux peuvent provenir d'héritages, de voyages ou d'achats à l'étranger.</p>
 
 <h3>Vente et cadre légal</h3>
 
-<p>La réglementation marocaine de la bijouterie impose le 18 carats comme standard légal pour la fabrication, le poinçonnage et la vente des bijoux. Cela garantit une uniformité sur le marché et protège les consommateurs.</p>
+<p>La réglementation marocaine de la bijouterie impose le 18 karats comme standard légal pour la fabrication, le poinçonnage et la vente des bijoux. Cela garantit une uniformité sur le marché et protège les consommateurs.</p>
 
 <h2>L'or 18k, entre valeur économique et choix de société</h2>
 
-<p>Au Maroc, le 18 carats s'est imposé au fil du temps comme un choix à la fois économique et culturel. Ce standard permet de concilier le rôle de refuge économique de l'or avec les exigences de l'usage quotidien. Il représente un équilibre entre la valeur intrinsèque du métal précieux et la durabilité nécessaire pour des bijoux portés régulièrement et transmis à travers les générations.</p>"""
+<p>Au Maroc, le 18 karats s'est imposé au fil du temps comme un choix à la fois économique et culturel. Ce standard permet de concilier le rôle de refuge économique de l'or avec les exigences de l'usage quotidien. Il représente un équilibre entre la valeur intrinsèque du métal précieux et la durabilité nécessaire pour des bijoux portés régulièrement et transmis à travers les générations.</p>"""
             }
         ]
 

@@ -5,9 +5,9 @@
  * 18K = 75.0% pure gold (18/24)
  */
 export const KARAT_CONFIG = {
-  24: { purity: 1.000, label: '24 Carats', shortLabel: '24K', description: 'Or pur (999)' },
-  21: { purity: 0.875, label: '21 Carats', shortLabel: '21K', description: 'Or 875' },
-  18: { purity: 0.750, label: '18 Carats', shortLabel: '18K', description: 'Or 750' },
+  24: { purity: 1.000, label: '24 Karats', shortLabel: '24K', description: 'Or pur (999)' },
+  21: { purity: 0.875, label: '21 Karats', shortLabel: '21K', description: 'Or 875' },
+  18: { purity: 0.750, label: '18 Karats', shortLabel: '18K', description: 'Or 750' },
 };
 
 /**

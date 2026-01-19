@@ -31,7 +31,7 @@
       "transparent": "Transparence totale"
     },
     "karat": {
-      "title": "L'or 18 carats, un standard d'excellence",
+      "title": "L'or 18 karats, un standard d'excellence",
       "description": "Équilibre parfait entre pureté, solidité et élégance. L'or 18k est au cœur de la bijouterie marocaine avec ses 75% d'or pur.",
       "purity": "Pureté",
       "solidity": "Solidité",
@@ -67,7 +67,7 @@
     }
   },
   "price": {
-    "pageTitle": "Cours de l'or brut 18 Carats au Maroc",
+    "pageTitle": "Cours de l'or brut 18 Karats au Maroc",
     "subtitle": "Signal réel du marché au quotidien — Casablanca —",
     "retry": "Réessayer",
     "error": "Erreur lors du chargement des données. Veuillez réessayer."
@@ -136,8 +136,8 @@
     "contactButton": "Nous contacter",
     "questions": [
       {
-        "question": "Qu'est-ce que l'or 18 carats ?",
-        "answer": "L'or 18 carats (18K) est un alliage composé de 75% d'or pur et de 25% d'autres métaux (cuivre, argent, zinc). Cette composition offre un équilibre parfait entre pureté, durabilité et éclat, ce qui en fait le standard de référence pour la bijouterie de qualité au Maroc."
+        "question": "Qu'est-ce que l'or 18 karats ?",
+        "answer": "L'or 18 karats (18K) est un alliage composé de 75% d'or pur et de 25% d'autres métaux (cuivre, argent, zinc). Cette composition offre un équilibre parfait entre pureté, durabilité et éclat, ce qui en fait le standard de référence pour la bijouterie de qualité au Maroc."
       },
       {
         "question": "Comment est déterminé le prix de l'or au Maroc ?",
@@ -169,7 +169,7 @@
       },
       {
         "question": "Les prix affichés sur 18k.ma sont-ils les prix en bijouterie ?",
-        "answer": "Non, les prix affichés sur 18k.ma représentent le cours indicatif de l'or 18 carats au gramme. Les prix en bijouterie incluent des frais supplémentaires (façonnage, marge, TVA). Nos prix servent de référence pour comprendre la valeur intrinsèque de l'or, pas le prix final d'un bijou."
+        "answer": "Non, les prix affichés sur 18k.ma représentent le cours indicatif de l'or 18 karats au gramme. Les prix en bijouterie incluent des frais supplémentaires (façonnage, marge, TVA). Nos prix servent de référence pour comprendre la valeur intrinsèque de l'or, pas le prix final d'un bijou."
       },
       {
         "question": "Pourquoi suivre le cours de l'or ?",
@@ -178,7 +178,7 @@
     ]
   },
   "footer": {
-    "description": "Votre source d'information de référence sur le cours de l'or 18 carats au Maroc.",
+    "description": "Votre source d'information de référence sur le cours de l'or 18 karats au Maroc.",
     "navigation": "Navigation",
     "legal": "Légal",
     "followUs": "Suivez-nous",
@@ -196,7 +196,7 @@
       "title": "Conditions Générales d'Utilisation",
       "intro": "Bienvenue sur <strong>18K.MA</strong>. En accédant à notre site, vous acceptez les présentes conditions générales d'utilisation. Nous vous invitons à les lire attentivement.",
       "section1Title": "Objet du site",
-      "section1Content": "18K.MA est une plateforme d'information dédiée au suivi du cours de l'or 18 carats au Maroc. Le site propose des prix indicatifs en Dirham Marocain (MAD) par gramme, ainsi qu'un historique des variations et des contenus éditoriaux à caractère informatif.",
+      "section1Content": "18K.MA est une plateforme d'information dédiée au suivi du cours de l'or 18 karats au Maroc. Le site propose des prix indicatifs en Dirham Marocain (MAD) par gramme, ainsi qu'un historique des variations et des contenus éditoriaux à caractère informatif.",
       "section2Title": "Nature des informations",
       "section2Warning": "<strong>Important :</strong> Les prix affichés sur 18K.MA sont fournis à titre purement indicatif et ne constituent en aucun cas une offre d'achat ou de vente.",
       "section2Content": "Les cours présentés sont basés sur des sources de marché et peuvent varier selon les bijoutiers et commerçants. Nous vous recommandons de consulter un professionnel agréé pour toute transaction.",

@@ -104,7 +104,7 @@ def seed_blog():
 
 <ul>
 <li><strong>Le poids de l'or</strong> : mesuré en grammes, c'est la base du calcul</li>
-<li><strong>La pureté (caratage)</strong> : 18K, 14K, 9K... plus le caratage est élevé, plus le bijou contient d'or pur</li>
+<li><strong>La pureté (karatage)</strong> : 18K, 14K, 9K... plus le karatage est élevé, plus le bijou contient d'or pur</li>
 <li><strong>Le cours de l'or</strong> : fluctue quotidiennement sur les marchés internationaux</li>
 <li><strong>La main d'œuvre</strong> : le travail de l'artisan bijoutier</li>
 <li><strong>Les pierres précieuses</strong> : si le bijou en contient</li>
@@ -112,12 +112,12 @@ def seed_blog():
 
 <h2>Le calcul de base</h2>
 
-<p>Pour un bijou en or 18 carats (75% d'or pur) :</p>
+<p>Pour un bijou en or 18 karats (75% d'or pur) :</p>
 <p><strong>Prix = Poids × Cours de l'or × 0.75 + Main d'œuvre + Marge</strong></p>
 
 <h2>Pourquoi le 18K au Maroc ?</h2>
 
-<p>Au Maroc, le standard légal est l'or 18 carats. Cela garantit un bon équilibre entre pureté et durabilité du bijou.</p>""",
+<p>Au Maroc, le standard légal est l'or 18 karats. Cela garantit un bon équilibre entre pureté et durabilité du bijou.</p>""",
                 "image": "https://www.18k.ma/blog/wp-content/uploads/2025/12/Blog-Hero-Comp.png",
                 "category": categories["guide"],
                 "status": "published",
@@ -127,8 +127,8 @@ def seed_blog():
             {
                 "title": "Comment comparer deux bagues en or au même prix ?",
                 "slug": "comment-comparer-deux-bagues-en-or-au-meme-prix",
-                "excerpt": "Deux bagues en or 18 carats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur.",
-                "content": """<p>Deux bagues en or 18 carats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur. Découvrez les critères essentiels pour faire un choix éclairé.</p>
+                "excerpt": "Deux bagues en or 18 karats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur.",
+                "content": """<p>Deux bagues en or 18 karats peuvent être proposées au même prix, mais cela ne signifie pas qu'elles ont la même valeur. Découvrez les critères essentiels pour faire un choix éclairé.</p>
 
 <h2>Le poids : critère fondamental</h2>
 
@@ -187,12 +187,12 @@ def seed_blog():
             {
                 "title": "Pourquoi le 18K est le standard légal de l'or marocain ?",
                 "slug": "pourquoi-18k-standard-legal-or-marocain",
-                "excerpt": "Au Maroc, l'or occupe une place centrale dans la culture et les traditions. Découvrez pourquoi le 18 carats est devenu le standard légal.",
-                "content": """<p>Au Maroc, l'or occupe une place centrale dans la culture et les traditions. Découvrez pourquoi le 18 carats est devenu le standard légal pour la bijouterie marocaine.</p>
+                "excerpt": "Au Maroc, l'or occupe une place centrale dans la culture et les traditions. Découvrez pourquoi le 18 karats est devenu le standard légal.",
+                "content": """<p>Au Maroc, l'or occupe une place centrale dans la culture et les traditions. Découvrez pourquoi le 18 karats est devenu le standard légal pour la bijouterie marocaine.</p>
 
-<h2>Qu'est-ce que l'or 18 carats ?</h2>
+<h2>Qu'est-ce que l'or 18 karats ?</h2>
 
-<p>L'or 18 carats contient 75% d'or pur, mélangé à 25% d'autres métaux (cuivre, argent, zinc). Ce mélange apporte :</p>
+<p>L'or 18 karats contient 75% d'or pur, mélangé à 25% d'autres métaux (cuivre, argent, zinc). Ce mélange apporte :</p>
 <ul>
 <li><strong>Durabilité</strong> : plus résistant que l'or pur (24K)</li>
 <li><strong>Beauté</strong> : conserve l'éclat caractéristique de l'or</li>
@@ -201,7 +201,7 @@ def seed_blog():
 
 <h2>La réglementation marocaine</h2>
 
-<p>Le Maroc a adopté le 18 carats comme standard légal pour plusieurs raisons :</p>
+<p>Le Maroc a adopté le 18 karats comme standard légal pour plusieurs raisons :</p>
 <ul>
 <li>Protection des consommateurs</li>
 <li>Standardisation du marché</li>

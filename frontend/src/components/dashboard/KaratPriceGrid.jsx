@@ -49,7 +49,7 @@ const KaratPriceGrid = ({ currentPrice, loading }) => {
     return (
       <div className="space-y-3">
         <h3 className="text-terminal-muted text-sm font-semibold uppercase tracking-wider">
-          Prix par Carat
+          Prix par Karat
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[24, 21, 18].map((k) => (
@@ -67,7 +67,7 @@ const KaratPriceGrid = ({ currentPrice, loading }) => {
   return (
     <div className="space-y-3">
       <h3 className="text-terminal-muted text-sm font-semibold uppercase tracking-wider">
-        Prix par Carat
+        Prix par Karat
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[24, 21, 18].map((karat) => (

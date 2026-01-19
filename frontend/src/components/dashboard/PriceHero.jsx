@@ -21,13 +21,13 @@ const PriceHero = ({ currentPrice, loading }) => {
       {/* Status indicator */}
       <div className="flex items-center gap-2 mb-4">
         <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-        <span className="text-terminal-muted text-sm">Marche en direct</span>
+        <span className="text-terminal-muted text-sm">Marché en direct</span>
       </div>
 
       {/* Main price */}
       <div className="mb-4">
         <span className="text-terminal-muted text-sm block mb-1">
-          Or 24 Carats - Prix au gramme
+          Or 24 Karats - Prix au gramme
         </span>
         <div className="flex items-baseline gap-3 flex-wrap">
           <span className="text-4xl lg:text-5xl font-mono font-bold text-gold-400">
@@ -59,7 +59,7 @@ const PriceHero = ({ currentPrice, loading }) => {
       {/* Last update */}
       <div className="mt-6 pt-4 border-t border-terminal-border">
         <span className="text-terminal-muted text-xs">
-          Derniere mise a jour: {formatDate(currentPrice.date)}
+          Dernière mise à jour : {formatDate(currentPrice.date)}
         </span>
       </div>
     </div>

@@ -121,7 +121,7 @@ const HomePage = () => {
                 {/* Main Image */}
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   <img
-                    src="/cours-or-maroc-prix-or-aujourdhui.webp"
+                    src="/cours-or-maroc-prix-or-aujourdhui.jpeg"
                     alt="Cours de l'or au Maroc aujourd'hui, prix de l'or en dirham marocain"
                     className="w-full h-[320px] lg:h-[400px] object-cover"
                   />
@@ -182,7 +182,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* L'or 18 carats + Vision sobre - Combined */}
+      {/* L'or 18 karats + Vision sobre - Combined */}
       <section className={`bg-gray-50 py-12 lg:py-16 ${isRTL ? 'font-arabic' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -191,12 +191,12 @@ const HomePage = () => {
               <div className="relative h-48">
                 <img
                   src="/or-18-carats-maroc-750.webp"
-                  alt="Or 18 carats au Maroc, pureté 750 et valeur réelle"
+                  alt="Or 18 karats au Maroc, pureté 750 et valeur réelle"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                 <div className={`absolute bottom-4 ${isRTL ? 'right-4' : 'left-4'}`}>
-                  <span className="px-3 py-1 bg-[#D2A24C] text-white text-xs font-bold rounded-full">{isRTL ? '18 قيراط' : '18 CARATS'}</span>
+                  <span className="px-3 py-1 bg-[#D2A24C] text-white text-xs font-bold rounded-full">{isRTL ? '18 قيراط' : '18 KARATS'}</span>
                 </div>
               </div>
               <div className="p-6">
