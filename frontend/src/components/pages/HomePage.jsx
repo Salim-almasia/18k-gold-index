@@ -1,10 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from '../layout/DashboardLayout';
 import { useLanguage } from '../../context/LanguageContext';
 
 const HomePage = () => {
   const { t, isRTL, getLocalizedPath } = useLanguage();
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
+
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    if (newsletterEmail.trim()) {
+      // For now, just show success message
+      // In the future, this could send to a backend API
+      setNewsletterSubmitted(true);
+      setNewsletterEmail('');
+    }
+  };
 
   useEffect(() => {
     document.title = isRTL
@@ -436,30 +448,56 @@ const HomePage = () => {
 
             {/* Form */}
             <div className="bg-gray-50 rounded-2xl p-8 lg:p-10 border border-gray-100">
-              <form className="flex flex-col sm:flex-row gap-4">
-                <div className="flex-1 relative">
-                  <div className="absolute inset-y-0 start-4 flex items-center pointer-events-none">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+              {!newsletterSubmitted ? (
+                <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex-1 relative">
+                    <div className="absolute inset-y-0 start-4 flex items-center pointer-events-none">
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                      </svg>
+                    </div>
+                    <input
+                      type="email"
+                      value={newsletterEmail}
+                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      placeholder={t('home.newsletter.placeholder')}
+                      required
+                      className="w-full ps-12 pe-4 py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#002FA7] focus:ring-2 focus:ring-[#002FA7]/10 transition-all"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#002FA7] text-white font-semibold rounded-xl hover:bg-[#001f7a] transition-all shadow-lg shadow-[#002FA7]/20 whitespace-nowrap"
+                  >
+                    {t('home.newsletter.button')}
+                    <svg className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </button>
+                </form>
+              ) : (
+                <div className="text-center py-4">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 mb-4">
+                    <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <input
-                    type="email"
-                    placeholder={t('home.newsletter.placeholder')}
-                    className="w-full ps-12 pe-4 py-4 bg-white border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-[#002FA7] focus:ring-2 focus:ring-[#002FA7]/10 transition-all"
-                  />
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                    {isRTL ? 'شكراً لك!' : 'Merci !'}
+                  </h3>
+                  <p className="text-gray-500">
+                    {isRTL
+                      ? 'تم تسجيل بريدك الإلكتروني بنجاح. سنبقيك على اطلاع بآخر أخبار سوق الذهب.'
+                      : 'Votre adresse e-mail a bien été enregistrée. Nous vous tiendrons informé des dernières actualités du marché de l\'or.'}
+                  </p>
+                  <button
+                    onClick={() => setNewsletterSubmitted(false)}
+                    className="mt-4 text-sm text-[#002FA7] hover:underline"
+                  >
+                    {isRTL ? 'تسجيل بريد إلكتروني آخر' : 'Inscrire une autre adresse'}
+                  </button>
                 </div>
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#002FA7] text-white font-semibold rounded-xl hover:bg-[#001f7a] transition-all shadow-lg shadow-[#002FA7]/20 whitespace-nowrap"
-                >
-                  {t('home.newsletter.button')}
-                  <svg className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </button>
-              </form>
-
+              )}
             </div>
           </div>
         </div>
