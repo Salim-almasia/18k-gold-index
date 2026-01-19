@@ -490,12 +490,6 @@ const HomePage = () => {
                       ? 'تم تسجيل بريدك الإلكتروني بنجاح. سنبقيك على اطلاع بآخر أخبار سوق الذهب.'
                       : 'Votre adresse e-mail a bien été enregistrée. Nous vous tiendrons informé des dernières actualités du marché de l\'or.'}
                   </p>
-                  <button
-                    onClick={() => setNewsletterSubmitted(false)}
-                    className="mt-4 text-sm text-[#002FA7] hover:underline"
-                  >
-                    {isRTL ? 'تسجيل بريد إلكتروني آخر' : 'Inscrire une autre adresse'}
-                  </button>
                 </div>
               )}
             </div>
