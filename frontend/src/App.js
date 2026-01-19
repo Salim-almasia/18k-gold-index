@@ -16,6 +16,7 @@ import HomePage from './components/pages/HomePage';
 import PricePage from './components/pages/PricePage';
 import Blog from './components/pages/Blog';
 import ArticlePage from './components/pages/ArticlePage';
+import BlogRouter from './components/pages/BlogRouter';
 import Contact from './components/pages/Contact';
 import CGU from './components/pages/CGU';
 import PrivacyPolicy from './components/pages/PrivacyPolicy';
@@ -102,9 +103,8 @@ function App() {
       <Route path="/prix-de-lor" element={renderPricePage(true)} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog/page/:page" element={<Blog />} />
-      <Route path="/blog/:category" element={<Blog />} />
-      <Route path="/blog/:category/page/:page" element={<Blog />} />
-      <Route path="/article/:slug" element={<ArticlePage />} />
+      <Route path="/blog/:slug" element={<BlogRouter />} />
+      <Route path="/blog/:slug/page/:page" element={<Blog />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/conditions-generales-utilisation" element={<CGU />} />
       <Route path="/politique-de-confidentialite" element={<PrivacyPolicy />} />
@@ -117,9 +117,8 @@ function App() {
       <Route path="/ar/prix-de-lor" element={renderPricePage(true)} />
       <Route path="/ar/blog" element={<Blog />} />
       <Route path="/ar/blog/page/:page" element={<Blog />} />
-      <Route path="/ar/blog/:category" element={<Blog />} />
-      <Route path="/ar/blog/:category/page/:page" element={<Blog />} />
-      <Route path="/ar/article/:slug" element={<ArticlePage />} />
+      <Route path="/ar/blog/:slug" element={<BlogRouter />} />
+      <Route path="/ar/blog/:slug/page/:page" element={<Blog />} />
       <Route path="/ar/contact" element={<Contact />} />
       <Route path="/ar/conditions-generales-utilisation" element={<CGU />} />
       <Route path="/ar/politique-de-confidentialite" element={<PrivacyPolicy />} />

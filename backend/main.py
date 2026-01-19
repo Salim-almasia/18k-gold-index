@@ -414,7 +414,7 @@ def seed_blog_data(db: Session):
 <h2>العامل الثالث: اليد العاملة والعمل الحرفي</h2>
 <p>جزء مهم من سعر مجوهرات الذهب يعود لليد العاملة. هذه اليد العاملة تشمل عدة مراحل أساسية: التصميم، التصنيع، التشطيبات وترصيع الأحجار المحتمل.</p>""",
             "category_slug": "or-valeur",
-            "image": "https://www.18k.ma/blog/wp-content/uploads/2025/12/Blog-Hero-Comp.png",
+            "image": "https://storage.googleapis.com/gold-prices-db-luxoria-gold-18k/images/article1.png",
             "reading_time": 10
         },
         {
@@ -489,7 +489,7 @@ def seed_blog_data(db: Session):
 <h2>الأحجار والمواد المضافة</h2>
 <p>إضافة الأحجار يمكن أن ترفع السعر النهائي للخاتم دون زيادة كمية الذهب التي يحتويها.</p>""",
             "category_slug": "or-valeur",
-            "image": "https://www.18k.ma/blog/wp-content/uploads/2020/06/3-1.png",
+            "image": "https://storage.googleapis.com/gold-prices-db-luxoria-gold-18k/images/article2.png",
             "reading_time": 8
         },
         {
@@ -587,7 +587,7 @@ def seed_blog_data(db: Session):
 <h2>الاستعانة بمحترف</h2>
 <p>في مدننا المغربية، غالباً ما يمتلك صاغة الأحياء سنوات من الخبرة في العمل والتعرف على الذهب.</p>""",
             "category_slug": "or-valeur",
-            "image": "https://www.18k.ma/blog/wp-content/uploads/2020/06/1-1.png",
+            "image": "https://storage.googleapis.com/gold-prices-db-luxoria-gold-18k/images/article3.png",
             "reading_time": 8
         },
         {
@@ -696,7 +696,7 @@ def seed_blog_data(db: Session):
 <p>في المغرب، فرض 18 قيراط نفسه بمرور الوقت كخيار اقتصادي وثقافي في آن واحد. في بيئة تتميز بعدم استقرار بعض القيم، يحتفظ الذهب بمكانة خاصة كأصل ملموس وعالمي وقابل للنقل.</p>
 <p>معيار 18 قيراط يتيح التوفيق بين دور الملاذ الاقتصادي ومتطلبات الاستخدام اليومي. يضمن استدامة المعدن مع توفير المتانة اللازمة لمجوهرات تُلبس وتُنقل عبر أجيال متعددة.</p>""",
             "category_slug": "or-valeur",
-            "image": "https://storage.googleapis.com/gold-prices-db-luxoria-gold-18k/images/18k-standard-legal.png",
+            "image": "https://storage.googleapis.com/gold-prices-db-luxoria-gold-18k/images/article4.png",
             "reading_time": 9
         },
     ]

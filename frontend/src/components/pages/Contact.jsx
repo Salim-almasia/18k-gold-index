@@ -6,9 +6,9 @@ import { useLanguage } from '../../context/LanguageContext';
 // ============================================
 // CONFIGURATION EMAILJS - À REMPLIR
 // ============================================
-const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID = 'service_vpxj3rp';
+const EMAILJS_TEMPLATE_ID = 'template_hzl8l6i';
+const EMAILJS_PUBLIC_KEY = '_cq458GEsMJEtODTz';
 // ============================================
 
 const Contact = () => {

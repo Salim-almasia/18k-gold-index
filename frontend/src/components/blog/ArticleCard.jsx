@@ -38,7 +38,7 @@ const ArticleCard = ({ article }) => {
 
   return (
     <Link
-      to={getLocalizedPath(`/article/${slug}`)}
+      to={getLocalizedPath(`/blog/${slug}`)}
       className={`group block bg-white rounded-2xl overflow-hidden border border-gray-100 hover:border-[#D4AF37] transition-all duration-300 hover:shadow-xl hover:shadow-gray-100/50 ${isRTL ? 'font-arabic' : ''}`}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
